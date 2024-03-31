@@ -1,5 +1,32 @@
 <header>
-  <div class="logo">
-    <img src="../../assets/images/logo.svg" alt="Logo of the site" />
+  <nav>
+    <button
+      class="toggle-menu"
+      (click)="toggleMenu()"
+      aria-expanded="false"
+      aria-label="menu"
+    ></button>
+    <ul class="nav-menu" [ngClass]="{ active: isMenuActive }">
+      <button class="close-menu-button" (click)="closeMenu()"></button>
+      <li class="nav__item"><a href="#">Що Поїсти</a></li>
+      <li class="nav__item"><a href="#">Пошук рецептів</a></li>
+      <li class="nav__item"><a href="#">Країни світу</a></li>
+      <li class="nav__item"><a href="#">Калькулятор</a></li>
+      <li class="nav__item"><a href="#">Додати рецепт</a></li>
+    </ul>
+  </nav>
+  <a href="#" class="brand">
+    <img src="../../assets/images/logo.svg" alt="Logo" />
+  </a>
+  <div class="buttons-section">
+    <div class="signIn"><a href="#" aria-label="Sign in">Вхід</a></div>
+    <div class="signUp">
+      <a href="#" aria-label="Sign up">Зареєструватися</a>
+    </div>
   </div>
 </header>
+<div
+  *ngIf="isMenuActive"
+  (click)="closeMenu()"
+  [ngClass]="{ backdrop: isMenuActive }"
+></div>

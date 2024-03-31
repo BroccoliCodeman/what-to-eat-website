@@ -1,0 +1,190 @@
+* {
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+}
+
+header {
+  width: 80%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  position: relative;
+}
+
+.toggle-menu {
+  width: 45px;
+  height: 38px;
+  background: url("../../assets/images/menu.svg") no-repeat;
+  background-size: contain;
+  border: none;
+  cursor: pointer;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  justify-content: center;
+}
+
+.nav-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30%;
+  height: 100vh;
+  max-height: 100vh;
+  background-color: #004225;
+  z-index: 999;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: transform 0.2s ease-out;
+  display: block;
+  list-style: none;
+}
+
+.nav-menu.active {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.nav__item {
+  margin-left: 20%;
+}
+
+.nav__item a {
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-top: 40px;
+  display: block;
+  text-decoration: none;
+  color: #f5f5dc;
+}
+
+.close-menu-button {
+  width: 30px;
+  height: 38px;
+  background: url("../../assets/images/close.svg") no-repeat;
+  background-size: contain;
+  border: none;
+  cursor: pointer;
+  float: right;
+}
+
+.buttons-section {
+  display: flex;
+  flex-direction: row;
+}
+
+.buttons-section > div {
+  font-size: 1.1rem;
+  line-height: 19.5px;
+  font-weight: 700;
+  padding: 5px 20px;
+  text-decoration: none;
+  text-transform: uppercase;
+  border: 2px solid #004225;
+  margin-left: 10px;
+}
+.buttons-section div a {
+  text-decoration: none;
+}
+
+.signIn {
+  background-color: #fff;
+}
+
+.signUp {
+  background-color: #004225;
+}
+.signIn a {
+  color: #004225;
+}
+
+.signUp a {
+  color: #fff;
+}
+
+.backdrop {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #33333377;
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  transform: translateX(30%);
+}
+
+@media only screen and (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-menu {
+    width: 100%;
+    height: 55vh;
+  }
+
+  .nav-item {
+    padding: 15px;
+  }
+
+  .buttons-section {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .buttons-section > div:last-child {
+    margin-top: 5px;
+  }
+
+  .toggle-menu {
+    display: block;
+  }
+
+  .backdrop {
+    transform: translateX(0);
+    transform: translateY(55%);
+  }
+}
+
+@media only screen and (max-width: 524px) {
+  header {
+    grid-template-columns: 1fr;
+    align-items: center;
+    position: relative;
+  }
+
+  nav {
+    justify-self: center;
+    margin: 20px 0;
+  }
+
+  .nav-menu {
+    height: 100vh;
+  }
+
+  .backdrop {
+    transform: translateY(100%);
+  }
+
+  .brand {
+    margin-top: 5px;
+    grid-row-start: 1;
+    grid-row-end: 2;
+  }
+}

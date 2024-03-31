@@ -1,3 +1,4 @@
+import { style } from '@angular/animations';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,5 +7,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
+  isMenuActive: boolean = false;
 
+  toggleMenu() {
+    this.isMenuActive = !this.isMenuActive;
+  }
+
+  closeMenu() {
+    this.isMenuActive = false;
+  }
+
+  isAutorized: boolean = true;
 }
