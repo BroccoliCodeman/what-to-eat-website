@@ -5,3 +5,5 @@
   box-sizing: content-box;
   font-family: "Montserrat", sans-serif;
 }
+
+html, body { height: 100%; }
