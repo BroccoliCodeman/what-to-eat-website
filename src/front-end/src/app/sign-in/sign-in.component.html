@@ -1,0 +1,66 @@
+<div id="auth-background">
+  <app-header></app-header>
+  <!-- Authorization -->
+  <div id="auth-form">
+    <div id="cancel-btn" routerLink="/"></div>
+    <form [formGroup]="loginform" id="login-form">
+      <h1>УВІЙТИ</h1>
+      <div class="form-group">
+        <label>ЕЛЕКТРОННА ПОШТА</label>
+        <input
+          type="text"
+          placeholder=""
+          class="form-control"
+          name="email"
+          formControlName="email"
+        />
+        <div
+          class="alert-data"
+          *ngIf="
+            loginform.get('email')?.touched && loginform.get('email')?.invalid
+          "
+        >
+          <div *ngIf="loginform.get('email').errors?.required">
+            *Це обов'язкове поле.
+          </div>
+          <div *ngIf="loginform.get('email').errors?.email">
+            *Неправильно введено пошту.
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>ПАРОЛЬ</label>
+        <div class="password-container">
+          <input
+            type="password"
+            placeholder=""
+            class="form-control"
+            name="password"
+            formControlName="password"
+          />
+          <img
+            id="togglePassword"
+            src="../../assets/images/togglepassword1.png"
+            (click)="togglePasswordVisibility()"
+          />
+        </div>
+        <div
+          class="alert-data"
+          *ngIf="
+            loginform.get('password')?.touched &&
+            loginform.get('password')?.invalid
+          "
+        >
+          <div *ngIf="loginform.get('password').errors?.required">
+            *Це обов'язкове поле.
+          </div>
+        </div>
+        <button id="forgot-btn">Забули пароль?</button>
+      </div>
+      <hr class="form-line" />
+      <button type="submit" class="submit-btn" [disabled]="loginform.invalid">
+        УВІЙТИ
+      </button>
+    </form>
+  </div>
+</div>

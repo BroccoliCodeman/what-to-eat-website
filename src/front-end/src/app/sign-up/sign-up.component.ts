@@ -1,12 +1,11 @@
 import { Component,OnInit } from '@angular/core';
 import {FormGroup,FormControl,NgForm, Validators,AbstractControl,ValidatorFn} from '@angular/forms';
-
 @Component({
-  selector: 'app-authpage',
-  templateUrl: './authpage.component.html',
-  styleUrls: ['./authpage.component.css','./avatar.scss']
+  selector: 'app-sign-up',
+  templateUrl: './sign-up.component.html',
+  styleUrls: ['./sign-up.component.css', '../../assets/styles/avatar.scss', "../../assets/styles/authorizationCommon.css"]
 })
-export class AuthpageComponent {
+export class SignUpComponent {
 
   loginform:any;
   resetform:any;
@@ -144,7 +143,7 @@ export class AuthpageComponent {
     if (files.length > 0) {
       const _file = URL.createObjectURL(files[0]);
       this.reggform.file = _file;
-      this.resetInput();   
+      this.resetInput();
     }
  }
  resetInput(){

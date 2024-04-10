@@ -1,0 +1,124 @@
+#forgot-btn {
+  font-size: 1.4vh;
+  background: rgba(255, 255, 255, 0);
+  border-width: 0px;
+  color: #505050;
+  font-weight: 600;
+  margin-left: 50%;
+}
+#forgot-btn:hover {
+  cursor: pointer;
+  text-shadow: 0px 0px 0px black;
+}
+.form-line {
+  width: 50%;
+  border-color: #004225;
+  border-width: 1px;
+  min-width: 85px;
+}
+.submit-btn {
+  background-color: #004225;
+  font-family: "Montserrat";
+  font-size: 100%;
+  border-width: 0px;
+  border-radius: 0.8vh;
+  text-align: center;
+  width: 35%;
+  min-width: 100px;
+  height: 5vh;
+  color: white;
+  margin: 2% auto;
+}
+.submit-btn:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 10px #004225;
+}
+.password-container {
+  position: relative;
+  width: 100%;
+}
+
+#pass-chng-txt {
+  margin-top: 2%;
+  text-align: center;
+}
+
+#regi-form {
+  background-color: white;
+  width: 40vw;
+  height: auto;
+  position: relative;
+  margin: 0 auto;
+  margin-top: 7vh;
+  border-radius: 1.5vw;
+  font-family: "Montserrat";
+  color: #505050;
+  font-weight: bold;
+  font-size: 100%;
+  min-width: 300px;
+  padding-bottom: 8vh;
+  padding-top: 2vw;
+  display: block;
+}
+#toggleregPassword {
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  height: 2vh;
+}
+#toggleregrepeatPassword {
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  height: 2vh;
+}
+.regg-group {
+  text-align: left;
+  display: grid;
+  justify-content: space-between;
+  font-size: 100%;
+  margin-left: 25%;
+  margin-top: 5%;
+  width: 100%;
+}
+.regg-group input {
+  height: 3vh;
+  font-family: "Montserrat";
+  width: 16vw;
+  min-width: 100px;
+  border-width: 1px;
+  border-radius: 0.5vh;
+  border-color: #505050;
+}
+.regg-group input:focus {
+  border-color: #004225;
+}
+.reggform-line {
+  width: 80%;
+  margin-left: 20%;
+  border-color: #004225;
+  border-width: 1px;
+  min-width: 85px;
+  margin-top: 5%;
+}
+
+.sign-in-block {
+  display: flex;
+  flex-direction: column;
+}
+
+#reg-signin-btn {
+  font-size: 2vh;
+  background: rgba(255, 255, 255, 0);
+  border-width: 0px;
+  color: #004225;
+  font-weight: 600;
+}
+#reg-signin-btn:hover {
+  cursor: pointer;
+  text-shadow: 0px 0px 0px black;
+}

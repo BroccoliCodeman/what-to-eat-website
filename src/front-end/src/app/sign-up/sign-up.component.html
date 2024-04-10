@@ -1,0 +1,200 @@
+<div id="auth-background">
+  <app-header></app-header>
+  <!--Registration-->
+  <div id="regi-form" *ngIf="true">
+    <div id="cancel-btn" routerLink="/"></div>
+    <form [formGroup]="reggform" id="regg-form">
+      <h1>СТВОРИТИ АККАУНТ</h1>
+      <table>
+        <tr>
+          <td>
+            <div class="regg-group">
+              <input
+                type="text"
+                placeholder="Електронна пошта"
+                class="form-control"
+                name="email"
+                formControlName="email"
+              />
+              <div
+                class="alert-data"
+                *ngIf="
+                  reggform.get('email')?.touched &&
+                  reggform.get('email')?.invalid
+                "
+              >
+                <div *ngIf="reggform.get('email').errors?.required">
+                  *Це обов'язкове поле.
+                </div>
+                <div *ngIf="reggform.get('email').errors?.email">
+                  *Неправильно введено пошту.
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="avatar-container">
+              <div
+                class="image-container"
+                *ngIf="reggform.file; else placeholder"
+                [ngClass]="{ 'box-shadow-avatar': !!reggform.file }"
+                [ngStyle]="{ backgroundImage: 'url(' + reggform.file + ')' }"
+              ></div>
+
+              <ng-template #placeholder>
+                <div class="image-container avatar-placeholder"></div>
+              </ng-template>
+
+              <label for="avatar-input-file">
+                <div class="icon-wrapper">
+                  <input
+                    type="file"
+                    id="avatar-input-file"
+                    accept="image/*"
+                    (change)="onFileChange($event)"
+                  />
+                  <mat-icon class="icon" fontIcon="add"></mat-icon>
+                </div>
+              </label>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="regg-group">
+              <div class="password-container">
+                <input
+                  type="password"
+                  placeholder="Пароль"
+                  class="form-control"
+                  name="passwordreg"
+                  formControlName="passwordreg"
+                />
+                <img
+                  id="toggleregPassword"
+                  src="../../assets/images/togglepassword1.png"
+                  (click)="toggleregPasswordVisibility()"
+                />
+              </div>
+              <div
+                class="alert-data"
+                *ngIf="
+                  reggform.get('passwordreg')?.touched &&
+                  reggform.get('passwordreg')?.invalid
+                "
+              >
+                <div *ngIf="reggform.get('passwordreg').errors?.required">
+                  *Це обов'язкове поле.
+                </div>
+                <div *ngIf="reggform.get('passwordreg').errors?.minlength">
+                  *Пароль має містити мінімум 8 символів.
+                </div>
+                <div *ngIf="reggform.get('passwordreg').errors?.pattern">
+                  *Пароль має містити хоча б 1 цифру,<br />
+                  1 маленьку та 1 велику букву.
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="regg-group">
+              <div class="password-container">
+                <input
+                  type="password"
+                  placeholder="Повторіть пароль"
+                  class="form-control"
+                  name="passwordrepeat"
+                  formControlName="passwordrepeat"
+                />
+                <img
+                  id="toggleregrepeatPassword"
+                  src="../../assets/images/togglepassword1.png"
+                  (click)="toggleregPasswordrepeatVisibility()"
+                />
+              </div>
+              <div
+                class="alert-data"
+                *ngIf="
+                  reggform.get('passwordrepeat')?.touched &&
+                  reggform.get('passwordrepeat')?.invalid
+                "
+              >
+                <div *ngIf="reggform.get('passwordrepeat').errors?.required">
+                  *Це обов'язкове поле.
+                </div>
+              </div>
+              <div class="alert-data">
+                <div
+                  *ngIf="
+                    reggform.get('passwordrepeat').value !=
+                    reggform.get('passwordreg').value
+                  "
+                >
+                  *Паролі мають співпадати.
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <hr class="reggform-line" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="regg-group">
+              <input
+                type="text"
+                placeholder="Прізвище"
+                class="form-control"
+                name="surname"
+                formControlName="surname"
+              />
+              <div
+                class="alert-data"
+                *ngIf="
+                  reggform.get('surname')?.touched &&
+                  reggform.get('surname')?.invalid
+                "
+              >
+                <div *ngIf="reggform.get('surname').errors?.required">
+                  *Це обов'язкове поле.
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="regg-group">
+              <input
+                type="text"
+                placeholder="Ім'я"
+                class="form-control"
+                name="firstname"
+                formControlName="firstname"
+              />
+              <div
+                class="alert-data"
+                *ngIf="
+                  reggform.get('firstname')?.touched &&
+                  reggform.get('firstname')?.invalid
+                "
+              >
+                <div *ngIf="reggform.get('firstname').errors?.required">
+                  *Це обов'язкове поле.
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <button type="submit" class="submit-btn" [disabled]="reggform.invalid">
+        ДАЛІ
+      </button>
+      <div class="sign-in-block">
+        <h6 id="pass-chng-txt">Вже є акаунт?</h6>
+        <button id="reg-signin-btn">Увійти</button>
+      </div>
+    </form>
+  </div>
+</div>
