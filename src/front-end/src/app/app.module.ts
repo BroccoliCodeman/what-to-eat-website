@@ -10,6 +10,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { PasswordResetFormComponent } from './password-reset-form/password-reset-form.component';
+import { MainPageComponent } from './main-page/main-page.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { PasswordResetFormComponent } from './password-reset-form/password-reset
     SignUpComponent,
     SignInComponent,
     PasswordResetComponent,
-    PasswordResetFormComponent
+    PasswordResetFormComponent,
+    MainPageComponent
   ],
   imports: [
     BrowserModule,

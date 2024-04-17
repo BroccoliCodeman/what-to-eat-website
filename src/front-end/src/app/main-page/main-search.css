@@ -1,0 +1,154 @@
+/*Styles for searching on main page*/
+
+.search {
+  width: 80%;
+  margin: 100px auto;
+}
+
+.search div {
+  position: relative;
+}
+
+.search-input {
+  flex: 1;
+  padding: 13px 60px 13px 50px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  outline: none;
+  width: 80%;
+}
+
+.search div {
+  display: flex;
+}
+
+.search-button {
+  background-color: #ffb000;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  padding: 13px 30px;
+  border-radius: 20px;
+  margin-left: -100px;
+}
+
+.search-button:hover {
+  background-color: #004225;
+  transition: background-color 100ms linear;
+}
+
+.search-button a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.search-input {
+  background-image: url("../../assets/images/search-icon.svg");
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: 15px center;
+}
+
+/*Recommendations styles*/
+
+.recommendation-container {
+  margin-top: 35px;
+}
+
+h2 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 17px;
+}
+
+.recommendation-container ul {
+  margin-top: 10px;
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.recommendation-container li {
+  margin-right: 15px;
+  color: #004225;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/*Add recipe button styles*/
+
+.add-recipe-button {
+  margin-top: 50px;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  position: relative;
+  display: flex;
+  width: 15%;
+  margin: 50px auto;
+  background-color: #fff;
+  color: #ffb000;
+  font-weight: 600;
+  border: none;
+  padding: 13px 30px 13px 60px;
+  border-radius: 20px;
+  text-decoration: none;
+}
+
+.add-recipe-icon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.add-recipe-button:hover {
+  background-color: #eeeaea;
+  color: #004225;
+  transition: color 100ms linear;
+  transition: background-color 100ms linear;
+}
+
+/*Media queries for Responsive Design*/
+
+@media only screen and (max-width: 867px) {
+  .search div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .search-button {
+    margin: 20px auto;
+    width: 50%;
+    text-align: center;
+    position: static;
+  }
+
+  .recommendation-container {
+    width: 80%;
+    margin: 35px auto;
+    text-align: center;
+  }
+
+  .recommendation-container ul {
+    display: block;
+  }
+
+  .recommendation-container li {
+    margin: 15px auto;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .search-input {
+    width: 60%;
+    margin: 0 auto;
+  }
+
+  .search-input::placeholder {
+    font-size: 0.8rem;
+  }
+
+  .add-recipe-button {
+    font-size: 0.8rem;
+  }
+}

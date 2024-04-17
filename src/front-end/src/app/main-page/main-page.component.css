@@ -1,0 +1,111 @@
+/* CSS for the curved background */
+.page-background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(248, 134, 44, 0.6) 20%,
+    rgba(255, 176, 0, 0.65) 60%,
+    rgba(255, 176, 0, 0.08) 100%
+  );
+  border-top-right-radius: 35%;
+  border-bottom-right-radius: 85%;
+  z-index: -1;
+}
+
+/*Main page*/
+
+main {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.welcoming {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  margin-top: 160px;
+  gap: 10%;
+}
+
+h1 {
+  font-family: "Montserrat Alternates";
+  font-weight: 600;
+  line-height: 67.05px;
+  font-size: 3.5rem;
+  text-transform: uppercase;
+}
+
+.welcoming-message p {
+  font-family: "Balsamiq Sans";
+  text-transform: uppercase;
+  max-width: 500px;
+}
+
+.welcoming-message a {
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.welcoming-message a .receipe-btn {
+  color: white;
+  background-color: #004225;
+  border-radius: 5px;
+  width: 250px;
+  height: 60px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 10px;
+  transition: transform 0.3s ease;
+}
+
+.welcoming-message a:hover .receipe-btn {
+  transform: scale(1.1);
+}
+
+.dish-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dish-image-container img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Media Queries for Responsive Design */
+
+@media only screen and (max-width: 768px) {
+  main {
+    width: 90%;
+  }
+
+  .welcoming {
+    grid-template-columns: 1fr;
+    margin-top: 100px;
+  }
+
+  .welcoming-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .welcoming-message p {
+    max-width: 370px;
+  }
+}
+
+@media only screen and (max-width: 524px) {
+  .welcoming {
+    margin-top: 80px;
+  }
+}
