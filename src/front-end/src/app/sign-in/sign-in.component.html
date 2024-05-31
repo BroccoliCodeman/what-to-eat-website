@@ -55,12 +55,15 @@
             *Це обов'язкове поле.
           </div>
         </div>
-        <button id="forgot-btn">Забули пароль?</button>
+        <button routerLink="/password-reset" id="forgot-btn">Забули пароль?</button>
       </div>
       <hr class="form-line" />
-      <button type="submit" class="submit-btn" [disabled]="loginform.invalid">
+      <button type="submit" class="submit-btn" [disabled]="loginform.invalid" (click)="submitForm()">
         УВІЙТИ
       </button>
+      <div class="alert-data" style="text-align: center; margin-left:25%" *ngIf="authorizeerror">
+        *Неправильно введені ім'я або пароль.
+        </div>
     </form>
   </div>
 </div>

@@ -188,12 +188,13 @@
           </td>
         </tr>
       </table>
-      <button type="submit" class="submit-btn" [disabled]="reggform.invalid">
+      <button type="submit" class="submit-btn" [disabled]="reggform.invalid" (click)="onRegister()">
         ДАЛІ
       </button>
+      <div class="alert-data" style="margin-left: 33%;" *ngIf="errorMessage.length>0" > {{errorMessage}}</div>
       <div class="sign-in-block">
         <h6 id="pass-chng-txt">Вже є акаунт?</h6>
-        <button id="reg-signin-btn">Увійти</button>
+        <button routerLink="/sign-in" id="reg-signin-btn">Увійти</button>
       </div>
     </form>
   </div>
