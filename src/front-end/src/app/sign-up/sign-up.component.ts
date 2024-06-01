@@ -1,5 +1,8 @@
 import { Component,OnInit } from '@angular/core';
 import {FormGroup,FormControl,NgForm, Validators,AbstractControl,ValidatorFn} from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { FirebaseService } from '../services/firebase.service';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -7,29 +10,14 @@ import {FormGroup,FormControl,NgForm, Validators,AbstractControl,ValidatorFn} fr
 })
 export class SignUpComponent {
 
-  loginform:any;
-  resetform:any;
   reggform:any;
-  passresetform:any;
 
-  constructor(){
-    //loginform
-    this.loginform=new FormGroup({
-      email:new FormControl('',[
-        Validators.required,
-        Validators.email
-      ]),
-      password:new FormControl('',[
-        Validators.required
-      ])
-    });
-    //resetform
-    this.resetform=new FormGroup({
-      email:new FormControl('',[
-        Validators.required,
-        Validators.email
-      ])
-    });
+  files:any;
+
+  errorMessage:string="";
+
+  constructor(private authService:AuthService,private router:Router,private firebaseService:FirebaseService){
+
     //reg form
     this.reggform=new FormGroup({
       email:new FormControl('',[
@@ -52,19 +40,6 @@ export class SignUpComponent {
         Validators.required
       ]),
       firstname:new FormControl('',[
-        Validators.required
-      ])
-    });
-    //pass-reset-form
-    this.passresetform=new FormGroup({
-      passwordreset:new FormControl('',[
-        Validators.required,
-        Validators.minLength(8),
-        Validators.pattern(
-          /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/
-        )
-      ]),
-      passwordresetrepeat:new FormControl('',[
         Validators.required
       ])
     });
@@ -138,20 +113,13 @@ export class SignUpComponent {
   }
   //reg form avatar
   onFileChange(event: any) {
-    const files = event.target.files as FileList;
+    this.files = event.target.files as FileList;
 
-    if (files.length > 0) {
-      const _file = URL.createObjectURL(files[0]);
+    if (this.files.length > 0) {
+      const _file = URL.createObjectURL(this.files[0]);
       this.reggform.file = _file;
-      this.resetInput();
     }
  }
- resetInput(){
-  const input = document.getElementById('avatar-input-file') as HTMLInputElement;
-  if(input){
-    input.value = "";
-  }
-}
 //pass match validator
 createCompareValidator(controlOne: AbstractControl, controlTwo: AbstractControl) {
   return () => {
@@ -159,5 +127,35 @@ createCompareValidator(controlOne: AbstractControl, controlTwo: AbstractControl)
     return { match_error: 'Value does not match' };
   return null;
 };
+}
+
+async onRegister() {
+  if (this.reggform.invalid) {
+    this.errorMessage = 'Please fill in all fields correctly.';
+    return;
+  }
+  let avatar='../../assets/images/avatar-placeholder.png'
+  console.log(this.files);
+  if(this.files!=null){
+    avatar=await this.firebaseService.putToStorage(this.files[0]);
+    console.log(avatar);
+  }
+
+  this.authService.registerUser(
+    this.reggform.controls['email'].value,
+    this.reggform.controls['firstname'].value,
+    avatar,
+    this.reggform.controls['surname'].value,
+    this.reggform.controls['passwordreg'].value,
+    this.reggform.controls['passwordrepeat'].value
+  ).subscribe(
+    (res: any) => {
+      if (res) {
+        this.errorMessage = "Користувач з такою поштою вже існує у базі!";
+      } else {
+        this.router.navigate(['/sign-in']);
+      }
+    }
+  );
 }
 }

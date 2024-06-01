@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./main-page.component.css', './main-search.css']
 })
 export class MainPageComponent {
+  imageURL:string="https://drive.google.com/file/d/172kTcLZxivNhxUmtjZlVYLWF847-uyS5/view";
 
 }

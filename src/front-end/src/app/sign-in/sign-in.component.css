@@ -39,7 +39,8 @@
 .form-line {
   border-color: #004225;
   border-width: 1px;
-  min-width: 85px;
+  margin-left: 25%;
+  width: 50%;
 }
 .submit-btn {
   background-color: #004225;

@@ -1,5 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import {FormGroup,FormControl,NgForm, Validators,AbstractControl,ValidatorFn} from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -8,9 +10,12 @@ import {FormGroup,FormControl,NgForm, Validators,AbstractControl,ValidatorFn} fr
 })
 export class SignInComponent {
 
-  loginform:any
+  loginform:any;
 
-  constructor(){
+  authorizeerror:boolean=false;
+  errorMessage: string = '';
+
+  constructor(private authService:AuthService,private router:Router){
     //loginform
     this.loginform=new FormGroup({
       email:new FormControl('',[
@@ -45,5 +50,22 @@ createCompareValidator(controlOne: AbstractControl, controlTwo: AbstractControl)
   return null;
 };
 }
+
+  submitForm(){
+    this.authService.logInUser(
+      this.loginform.controls['email'].value,
+      this.loginform.controls['password'].value
+    ).subscribe(
+      (res: any) => {
+        if (res.error) {
+          this.authorizeerror = true;
+          this.errorMessage = res.message;
+        } else {
+          localStorage.setItem('token', res.token);
+          this.router.navigate(['/userpage']);
+        }
+      }
+    );
+  }
 }
 
