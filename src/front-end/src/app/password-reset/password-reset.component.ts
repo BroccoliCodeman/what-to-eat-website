@@ -1,5 +1,6 @@
 import { Component,OnInit } from '@angular/core';
 import {FormGroup,FormControl,NgForm, Validators,AbstractControl,ValidatorFn} from '@angular/forms';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-password-reset',
@@ -8,9 +9,9 @@ import {FormGroup,FormControl,NgForm, Validators,AbstractControl,ValidatorFn} fr
 })
 export class PasswordResetComponent {
   resetform:any;
-  passresetform:any;
+  errorMessage:string="";
 
-  constructor(){
+  constructor(private authService:AuthService){
     //resetform
     this.resetform=new FormGroup({
       email:new FormControl('',[
@@ -28,4 +29,18 @@ createCompareValidator(controlOne: AbstractControl, controlTwo: AbstractControl)
   return null;
 };
 }
+
+  onSubmit(){
+    console.log(this.resetform)
+    this.authService.forgotPassword(this.resetform.controls['email'].value)
+    .subscribe(
+      (res: any) => {
+        if (res) {
+          this.errorMessage = res.message;
+        } else {
+          window.alert("Силку для відновлення надіслано на вашу пошту!");
+        }
+      }
+    );
+  }
 }

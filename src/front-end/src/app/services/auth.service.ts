@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
 
@@ -10,7 +10,31 @@ export class AuthService {
   constructor(private http: HttpClient) {
 
    }
-   logInUser(email: string, password: string): Observable<any> {
+   forgotPassword(email: string): Observable<any> {
+    const params = new HttpParams().set('Email', email);
+  
+    return this.http.post(`http://localhost:5000/api/Auth/ForgotPassword`, null, { params }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  resetPassword(id: string, code: string, newpas: string): Observable<any> {
+    const params = new HttpParams()
+      .set('Id', id)
+      .set('Code', code)
+      .set('newpas',newpas);
+
+      const headers=new HttpHeaders()
+      .set('Content-Type','application/json')
+      .set('accept','*/*');
+      
+    return this.http.post(`http://localhost:5000/api/Auth/ResetPassword`, null, {headers:headers,params: params} ).pipe(
+      catchError(this.handleError)
+    );
+  }
+  
+
+  logInUser(email: string, password: string): Observable<any> {
     const obj = {
       email: email,
       password: password

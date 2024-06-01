@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import {FormGroup,FormControl,Validators,AbstractControl} from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-password-reset-form',
@@ -8,8 +10,9 @@ import {FormGroup,FormControl,Validators,AbstractControl} from '@angular/forms';
 })
 export class PasswordResetFormComponent {
   passresetform:any;
+  errorMessage:string="";
 
-  constructor(){
+  constructor(private authService:AuthService,private activatedRoute:ActivatedRoute,private router:Router){
     //pass-reset-form
     this.passresetform=new FormGroup({
       passwordreset:new FormControl('',[
@@ -60,4 +63,20 @@ createCompareValidator(controlOne: AbstractControl, controlTwo: AbstractControl)
   return null;
 };
 }
+
+  onSubmit(){
+    let id=this.activatedRoute.snapshot.paramMap.get('id')as string || '';
+    let code=this.activatedRoute.snapshot.paramMap.get('code')as string || '';
+
+    this.authService.resetPassword(id,code,this.passresetform.controls['passwordreset'].value)
+    .subscribe(
+      (res: any) => {
+        if (res) {
+          this.errorMessage = "Ви не маєте доступу до цього!";
+        } else {
+          this.router.navigateByUrl("/sign-in");
+        }
+      }
+    );;
+  }
 }

@@ -19,6 +19,7 @@ import { AuthInterceptor } from './auth.interceptor';
 import { FirebaseService } from './services/firebase.service';
 import {AngularFireModule} from "@angular/fire/compat";
 import {AngularFireStorageModule} from "@angular/fire/compat/storage";
+import { UserPageComponent } from './user-page/user-page.component';
 
 @NgModule({
   declarations: [
@@ -29,16 +30,18 @@ import {AngularFireStorageModule} from "@angular/fire/compat/storage";
     PasswordResetComponent,
     PasswordResetFormComponent,
     MainPageComponent,
-    RecipeCreateComponent
+    RecipeCreateComponent,
+    UserPageComponent
   ],
   imports: [
     RouterModule.forRoot([
       { path: '', component: MainPageComponent },
       { path: 'password-reset', component: PasswordResetComponent },
-      { path: 'password-reset-form', component: PasswordResetFormComponent },
+      { path: 'password-reset-form/:id/:code', component: PasswordResetFormComponent },
       { path: 'sign-in', component: SignInComponent },
       { path: 'sign-up', component: SignUpComponent },
-      { path: 'recipe-create', component:RecipeCreateComponent}
+      { path: 'recipe-create', component:RecipeCreateComponent},
+      {path:'userpage',component:UserPageComponent}
     ]),
     BrowserModule,
     ReactiveFormsModule,

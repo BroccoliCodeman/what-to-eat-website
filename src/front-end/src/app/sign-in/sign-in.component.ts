@@ -1,7 +1,8 @@
-import { Component,OnInit } from '@angular/core';
+import { Component,NgZone,OnInit } from '@angular/core';
 import {FormGroup,FormControl,NgForm, Validators,AbstractControl,ValidatorFn} from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { CredentialResponse,PromptMomentNotification } from 'google-one-tap';
 
 @Component({
   selector: 'app-sign-in',
@@ -15,7 +16,7 @@ export class SignInComponent {
   authorizeerror:boolean=false;
   errorMessage: string = '';
 
-  constructor(private authService:AuthService,private router:Router){
+  constructor(private authService:AuthService,private router:Router, private nfZone:NgZone){
     //loginform
     this.loginform=new FormGroup({
       email:new FormControl('',[
@@ -27,6 +28,7 @@ export class SignInComponent {
       ])
     });
   }
+
 
   //login form pass visibility
   togglePasswordVisibility(): void {
@@ -62,10 +64,12 @@ createCompareValidator(controlOne: AbstractControl, controlTwo: AbstractControl)
           this.errorMessage = res.message;
         } else {
           localStorage.setItem('token', res.token);
-          this.router.navigate(['/userpage']);
+          this.router.navigateByUrl('/userpage');
         }
       }
     );
   }
+
+
 }
 

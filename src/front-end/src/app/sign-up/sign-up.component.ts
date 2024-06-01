@@ -135,7 +135,6 @@ async onRegister() {
     return;
   }
   let avatar='../../assets/images/avatar-placeholder.png'
-  console.log(this.files);
   if(this.files!=null){
     avatar=await this.firebaseService.putToStorage(this.files[0]);
     console.log(avatar);
