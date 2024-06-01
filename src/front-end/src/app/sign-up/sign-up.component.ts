@@ -118,15 +118,8 @@ export class SignUpComponent {
     if (this.files.length > 0) {
       const _file = URL.createObjectURL(this.files[0]);
       this.reggform.file = _file;
-      this.resetInput();
     }
  }
- resetInput(){
-  const input = document.getElementById('avatar-input-file') as HTMLInputElement;
-  if(input){
-    input.value = "";
-  }
-}
 //pass match validator
 createCompareValidator(controlOne: AbstractControl, controlTwo: AbstractControl) {
   return () => {
@@ -142,7 +135,8 @@ async onRegister() {
     return;
   }
   let avatar='../../assets/images/avatar-placeholder.png'
-  if(this.files.length>0){
+  console.log(this.files);
+  if(this.files!=null){
     avatar=await this.firebaseService.putToStorage(this.files[0]);
     console.log(avatar);
   }
@@ -156,7 +150,7 @@ async onRegister() {
     this.reggform.controls['passwordrepeat'].value
   ).subscribe(
     (res: any) => {
-      if (res.error) {
+      if (res) {
         this.errorMessage = "Користувач з такою поштою вже існує у базі!";
       } else {
         this.router.navigate(['/sign-in']);
