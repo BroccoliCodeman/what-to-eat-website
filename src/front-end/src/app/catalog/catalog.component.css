@@ -1,0 +1,241 @@
+.page-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #f8f6f2;
+  z-index: -1;
+}
+
+/*SEARCHING*/
+.search {
+  width: 80%;
+  margin: 0px auto;
+}
+
+.search-container {
+  position: relative;
+  display: flex;
+}
+
+.search-input {
+  flex: 1;
+  padding: 13px 60px 13px 50px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  outline: none;
+  width: 100%;
+  margin-top: 20px;
+  background-image: url("../../assets/images/search-icon.svg");
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: 15px center;
+}
+
+.search-button {
+  position: absolute;
+  top: 20.5px;
+  right: 0;
+  background-color: #ffb000;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  padding: 13px 30px;
+  border-radius: 20px;
+  margin-left: -100px;
+}
+
+.search-button:hover {
+  background-color: #004225;
+  transition: background-color 100ms linear;
+}
+
+.search-button a {
+  text-decoration: none;
+  color: #fff;
+}
+
+@media only screen and (max-width: 791px) {
+  .search div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .search-input {
+    width: 80%;
+  }
+
+  .search-button {
+    margin: 10px auto;
+    width: 50%;
+    text-align: center;
+    position: static;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .search-input {
+    width: 60%;
+    margin: 0 auto;
+  }
+
+  .search-input::placeholder {
+    content: "Пошук";
+  }
+}
+
+/*END SEARCHING*/
+
+section {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  background-color: transparent;
+  border-radius: 5px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-img-top {
+  width: 100%;
+  height: 200px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.card-body {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  flex-grow: 1;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 25px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.avatar img {
+  width: 45px;
+  height: 45px;
+  border-radius: 100%;
+  margin-right: 10px;
+}
+
+.user-container {
+  display: flex;
+  align-items: center;
+}
+
+.username,
+.date {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.username {
+  margin-bottom: 5px;
+}
+
+.date i {
+  margin-right: 5px;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background: none;
+  font-weight: 800;
+  font-size: 1rem;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 10px;
+  margin: 0 auto;
+  outline: none;
+  text-decoration: none;
+}
+
+.pagination button[disabled]:hover {
+  text-decoration: none;
+}
+
+.pagination .previous[disabled],
+.pagination .next[disabled] {
+  background: #ccc;
+  color: #888;
+  cursor: default;
+}
+
+.pagination button.current[disabled] {
+  text-decoration: none;
+  color: #888;
+  cursor: default;
+}
+
+/* Optionally, you can add hover and active styles */
+.pagination button:hover {
+  text-decoration: underline;
+}
+
+.pagination button:active {
+  text-decoration: underline;
+}
+
+@media only screen and (max-width: 424px) {
+  .card-img-top {
+    width: calc(100% - 40px);
+    height: 200px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    cursor: pointer;
+  }
+}

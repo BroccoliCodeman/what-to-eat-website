@@ -1,0 +1,83 @@
+<div class="page-background"></div>
+<app-header></app-header>
+
+<section>
+  <article class="search">
+    <form (ngSubmit)="searchRecipes()" #recipeForm="ngForm">
+      <div class="form-group">
+        <div class="search-container">
+          <input
+            type="text"
+            class="search-input"
+            id="title"
+            name="title"
+            [(ngModel)]="title"
+            placeholder="Введіть інгредієнти або назву рецепту"
+          />
+          <button type="submit" class="search-button">Знайти рецепти</button>
+        </div>
+      </div>
+    </form>
+  </article>
+</section>
+
+<section class="cards-container">
+  <div
+    class="card"
+    *ngFor="let recipe of recipes"
+    (click)="goToRecipePage(recipe.id)"
+  >
+    <div
+      class="card-img-top"
+      [style.backgroundImage]="'url(' + recipe.photo + ')'"
+    ></div>
+    <div class="card-body">
+      <h5 class="card-title">{{ recipe.title }}</h5>
+      <div class="user-container">
+        <div class="avatar">
+          <img
+            [src]="user?.avatar || '../../assets/images/default_user.jpg'"
+            alt="Avatar"
+            class="avatar"
+          />
+        </div>
+        <div class="sub-user-container">
+          <p class="username">Username</p>
+          <p class="date">
+            <i class="fas fa-calendar-alt" style="font-size: 1.4rem"></i>
+            {{ recipe.creationDate | date }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pagination-container">
+  <div class="pagination" *ngIf="pagination">
+    <button
+      class="previous"
+      [disabled]="!pagination.HasPrevious"
+      (click)="loadPreviousPage(); scrollToTop()"
+    >
+      <—
+    </button>
+    <ng-container *ngFor="let page of getPageNumbers()">
+      <button
+        class="pageNumbers"
+        [disabled]="pagination.CurrentPage === page"
+        [class.current]="pagination.CurrentPage === page"
+        (click)="loadRecipesForPage(page); scrollToTop()"
+      >
+        {{ page }}
+      </button>
+    </ng-container>
+    <button
+      class="next"
+      [disabled]="!pagination.HasNext"
+      (click)="loadNextPage(); scrollToTop()"
+    >
+      —>
+    </button>
+  </div>
+</div>

@@ -20,9 +20,17 @@ export class RecipePageComponent implements OnInit{
       res => {
         if (res.statusCode === 200){
           this.recipe = res.data;
+          this.scrollToTop();
         }
         console.log(this.recipe);
       }
     );
+  }
+
+  scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   }
 }

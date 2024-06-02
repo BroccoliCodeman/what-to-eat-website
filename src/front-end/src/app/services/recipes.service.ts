@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
 import { Recipe } from '../interfaces/recipe.interface';
@@ -9,8 +9,26 @@ import { RecipeShort } from '../interfaces/recipeShort.interface';
 })
 export class RecipesService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient) {}
 
+  getRecipes(title: string, ingredients: string[], page: number): Observable<HttpResponse<Recipe[]>> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'accept': 'text/plain'
+    });
+
+    const body = {
+      title: title,
+      ingredients: ingredients
+    };
+
+    const sortType = 0;
+
+    return this.http.post<Recipe[]>(
+      `http://localhost:5000/api/Recipe/Get?sortType=${sortType}&PageNumber=${page}`,
+      body,
+      { headers: headers, observe: 'response' }
+    );
   }
 
    getIngredientsByNameLike(string:string): Observable<RecipeShort[]> {
