@@ -20,6 +20,7 @@ import { FirebaseService } from './services/firebase.service';
 import {AngularFireModule} from "@angular/fire/compat";
 import {AngularFireStorageModule} from "@angular/fire/compat/storage";
 import { UserPageComponent } from './user-page/user-page.component';
+import { RecipesService } from './services/recipes.service';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { UserPageComponent } from './user-page/user-page.component';
   providers: [
     AuthService,
     FirebaseService,
+    RecipesService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true}
   ],
   bootstrap: [AppComponent]
