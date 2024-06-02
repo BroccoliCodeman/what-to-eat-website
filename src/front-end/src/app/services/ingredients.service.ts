@@ -1,27 +1,20 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
-import { Recipe } from '../interfaces/recipe.interface';
-import { RecipeShort } from '../interfaces/recipeShort.interface';
+import { SelectedIngredient } from '../interfaces/selectedIngredient.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RecipesService {
+export class IngredientsService {
 
   constructor(private http: HttpClient) {
 
    }
 
-   getIngredientsByNameLike(string:string): Observable<RecipeShort[]> {
-    return this.http.get<RecipeShort[]>(
-      `http://localhost:5000/api/Recipe/GetByTitle/${string}`
-    );
-  }
-
-  getRecipeById(string:string): Observable<Recipe> {
-    return this.http.get<Recipe>(
-      `http://localhost:5000/api/Recipe/${string}`
+   getIngredientsByNameLike(string:string): Observable<SelectedIngredient[]> {
+    return this.http.get<SelectedIngredient[]>(
+      `http://localhost:5000/api/Ingredient/GetByName/${string}`
     );
   }
 
