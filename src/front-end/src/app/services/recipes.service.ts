@@ -11,7 +11,7 @@ export class RecipesService {
 
   constructor(private http: HttpClient) {
 
-   }
+  }
 
    getIngredientsByNameLike(string:string): Observable<RecipeShort[]> {
     return this.http.get<RecipeShort[]>(
@@ -19,7 +19,7 @@ export class RecipesService {
     );
   }
 
-  getRecipeById(string:string): Observable<Recipe> {
+  getRecipeById(string:string): Observable<any> {
     return this.http.get<Recipe>(
       `http://localhost:5000/api/Recipe/${string}`
     );

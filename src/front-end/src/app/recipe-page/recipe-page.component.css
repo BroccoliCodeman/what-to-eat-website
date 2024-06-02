@@ -1,0 +1,104 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.page-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #f5f5dc;
+  z-index: -1;
+}
+
+.container {
+  position: relative;
+  z-index: 0;
+  padding: 20px;
+  width: 80%;
+  margin: 10px auto;
+}
+
+h1 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+h2 {
+  text-align: center;
+}
+.banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.banner div {
+  position: absolute;
+  left: 0;
+}
+
+.banner h1 {
+  margin: 0;
+}
+
+.firstLayer-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.photo {
+  max-width: 300px;
+  height: auto;
+  margin-bottom: 20px;
+}
+.description {
+  font-style: italic;
+  text-align: center;
+  max-width: 50%;
+  margin: 20px auto;
+}
+
+.ingredients,
+.cooking-steps {
+  margin-bottom: 20px;
+}
+
+.ingredients ul,
+.cooking-steps ol {
+  margin: 0;
+  padding: 0 0 0 20px;
+}
+
+.ingredients li {
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ingredient-name {
+  margin-right: 10px;
+}
+
+.ingredients li,
+.cooking-steps li {
+  margin-bottom: 5px;
+}
+
+hr {
+  width: 50%;
+  min-width: 150px;
+  margin: 0 auto;
+  border: 3px solid #004225;
+}
+
+.cooking-steps li {
+}

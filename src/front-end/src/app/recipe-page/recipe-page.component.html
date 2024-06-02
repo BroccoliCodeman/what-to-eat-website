@@ -1,1 +1,43 @@
-{{recipe}}
+<div class="page-background"></div>
+<app-header></app-header>
+<div *ngIf="recipe" class="container">
+  <div class="banner">
+    <div>Повернутись</div>
+    <h1>{{ recipe.title }}</h1>
+  </div>
+
+  <div class="description">{{ recipe.description }}</div>
+
+  <div class="firstLayer-container">
+    <div><img [src]="recipe.photo" alt="Recipe Photo" class="photo" /></div>
+    <div class="ingredients">
+      <h2>
+        Інгредієнти
+        <hr />
+        <br />
+      </h2>
+
+      <ul>
+        <li *ngFor="let ingredient of recipe.ingredients">
+          <span class="ingredient-name">{{ ingredient.name }}</span>
+          <span class="ingredient-quantity"
+            >{{ ingredient.quantity }} {{ ingredient.weightUnit.type }}</span
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cooking-steps">
+    <h2>
+      Покроковий рецепт приготування
+      <hr />
+      <br />
+    </h2>
+    <ol>
+      <li *ngFor="let step of recipe.cookingSteps">
+        {{ step.description }}
+      </li>
+    </ol>
+  </div>
+</div>
