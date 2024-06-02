@@ -21,6 +21,9 @@ import {AngularFireModule} from "@angular/fire/compat";
 import {AngularFireStorageModule} from "@angular/fire/compat/storage";
 import { UserPageComponent } from './user-page/user-page.component';
 import { RecipesService } from './services/recipes.service';
+import { SelectedIngredientsService } from './services/selectedIngredients.service';
+import { IngredientsService } from './services/ingredients.service';
+import { RecipePageComponent } from './recipe-page/recipe-page.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,8 @@ import { RecipesService } from './services/recipes.service';
     PasswordResetFormComponent,
     MainPageComponent,
     RecipeCreateComponent,
-    UserPageComponent
+    UserPageComponent,
+    RecipePageComponent
   ],
   imports: [
     RouterModule.forRoot([
@@ -42,7 +46,8 @@ import { RecipesService } from './services/recipes.service';
       { path: 'sign-in', component: SignInComponent },
       { path: 'sign-up', component: SignUpComponent },
       { path: 'recipe-create', component:RecipeCreateComponent},
-      {path:'userpage',component:UserPageComponent}
+      {path:'userpage',component:UserPageComponent},
+      {path:'recipepage/:id',component:RecipePageComponent}
     ]),
     BrowserModule,
     ReactiveFormsModule,
@@ -65,6 +70,8 @@ import { RecipesService } from './services/recipes.service';
     AuthService,
     FirebaseService,
     RecipesService,
+    SelectedIngredientsService,
+    IngredientsService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true}
   ],
   bootstrap: [AppComponent]
