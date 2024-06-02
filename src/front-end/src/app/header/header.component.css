@@ -110,7 +110,8 @@ nav {
   color: #004225;
 }
 
-.signUp {
+.signUp,
+.signOut {
   background-color: #004225;
   color: #fff;
 }
@@ -120,11 +121,15 @@ nav {
   color: #d9d9a6 !important;
 }
 
-.signUp:hover {
+.signUp:hover,
+.signOut:hover {
   background-color: #fff !important;
   color: #004225 !important;
 }
-
+.signOut {
+  align-self: center;
+  cursor: pointer;
+}
 .backdrop {
   position: fixed;
   z-index: 9998;

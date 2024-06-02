@@ -64,7 +64,7 @@ createCompareValidator(controlOne: AbstractControl, controlTwo: AbstractControl)
           this.errorMessage = res.message;
         } else {
           localStorage.setItem('token', res.token);
-          this.router.navigateByUrl('/userpage');
+          this.router.navigateByUrl('/');
         }
       }
     );
