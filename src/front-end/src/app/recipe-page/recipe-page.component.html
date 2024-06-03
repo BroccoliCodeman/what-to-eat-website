@@ -2,14 +2,20 @@
 <app-header></app-header>
 <div *ngIf="recipe" class="container">
   <div class="banner">
-    <div><a routerLink="/catalog">Повернутись</a></div>
+    <div>
+      <a routerLink="/catalog"
+        ><i class="goBack fa fa-long-arrow-left" aria-hidden="true"></i
+      ></a>
+    </div>
     <h1>{{ recipe.title }}</h1>
   </div>
 
   <div class="description">{{ recipe.description }}</div>
 
   <div class="firstLayer-container">
-    <div><img [src]="recipe.photo" alt="Recipe Photo" class="photo" /></div>
+    <div class="photo-container">
+      <img [src]="recipe.photo" alt="Recipe Photo" class="photo" />
+    </div>
     <div class="ingredients">
       <h2>
         Інгредієнти
@@ -28,16 +34,28 @@
     </div>
   </div>
 
-  <div class="cooking-steps">
-    <h2>
-      Покроковий рецепт приготування
-      <hr />
-      <br />
-    </h2>
-    <ol>
-      <li *ngFor="let step of recipe.cookingSteps">
-        {{ step.description }}
-      </li>
-    </ol>
+  <div class="secondLayer-container">
+    <div class="review">
+      <h2>
+        Відгуки
+        <hr />
+        <br />
+      </h2>
+
+      <p>{{ recipe.responds }}</p>
+    </div>
+
+    <div class="cooking-steps">
+      <h2>
+        Покроковий рецепт приготування
+        <hr />
+        <br />
+      </h2>
+      <ol>
+        <li *ngFor="let step of recipe.cookingSteps">
+          {{ step.description }}
+        </li>
+      </ol>
+    </div>
   </div>
 </div>

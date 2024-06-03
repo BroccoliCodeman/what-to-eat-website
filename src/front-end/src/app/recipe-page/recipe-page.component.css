@@ -27,9 +27,11 @@ h1 {
   font-size: 2em;
   margin-bottom: 10px;
 }
+
 h2 {
   text-align: center;
 }
+
 .banner {
   display: flex;
   justify-content: center;
@@ -47,6 +49,35 @@ h2 {
   margin: 0;
 }
 
+.banner a {
+  text-decoration: none;
+  color: #004225;
+}
+
+.goBack {
+  font-size: 2rem;
+}
+
+@media (max-width: 700px) {
+  .banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .banner div {
+    position: static;
+    margin-bottom: 10px;
+  }
+
+  .banner h1 {
+    text-align: left;
+  }
+
+  .goBack {
+    font-size: 1.5rem;
+  }
+}
+
 .firstLayer-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -59,6 +90,7 @@ h2 {
   height: auto;
   margin-bottom: 20px;
 }
+
 .description {
   font-style: italic;
   text-align: center;
@@ -67,7 +99,8 @@ h2 {
 }
 
 .ingredients,
-.cooking-steps {
+.cooking-steps,
+.review {
   margin-bottom: 20px;
 }
 
@@ -86,11 +119,17 @@ h2 {
 
 .ingredient-name {
   margin-right: 10px;
+  font-weight: 700;
+  text-transform: capitalize;
 }
 
-.ingredients li,
-.cooking-steps li {
+.ingredients li {
   margin-bottom: 5px;
+}
+
+.cooking-steps ol li {
+  margin-bottom: 1.2rem;
+  font-weight: 600;
 }
 
 hr {
@@ -100,5 +139,82 @@ hr {
   border: 3px solid #004225;
 }
 
-.cooking-steps li {
+/* Responsive adjustments */
+@media (max-width: 800px) {
+  @media (max-width: 800px) {
+    .firstLayer-container {
+      grid-template-columns: 1fr;
+      grid-row-gap: 2.5rem;
+    }
+
+    .secondLayer-container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .photo-container {
+      text-align: center;
+    }
+
+    .description {
+      max-width: 80%;
+    }
+
+    .review {
+      order: 2;
+    }
+
+    .cooking-steps {
+      order: 1;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .description {
+    max-width: 90%;
+    font-size: 1em;
+  }
+
+  .ingredients,
+  .cooking-steps {
+    margin-bottom: 15px;
+  }
+
+  .ingredients li,
+  .cooking-steps li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ingredient-name,
+  .ingredient-quantity {
+    margin-bottom: 5px;
+  }
+
+  .ingredients li {
+    align-items: center;
+    border-top: 1px solid #004225;
+    border-bottom: 1px solid #004225;
+  }
+
+  .photo {
+    max-width: 100%;
+  }
+}
+
+.secondLayer-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 2.5rem;
+}
+
+.review {
+  font-style: italic;
+}
+
+@media (max-width: 800px) {
+  .secondLayer-container {
+    grid-template-columns: 1fr;
+  }
 }
