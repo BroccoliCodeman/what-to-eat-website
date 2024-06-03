@@ -24,6 +24,7 @@ import { RecipesService } from './services/recipes.service';
 import { SelectedIngredientsService } from './services/selectedIngredients.service';
 import { IngredientsService } from './services/ingredients.service';
 import { RecipePageComponent } from './recipe-page/recipe-page.component';
+import { CatalogComponent } from './catalog/catalog.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { RecipePageComponent } from './recipe-page/recipe-page.component';
     MainPageComponent,
     RecipeCreateComponent,
     UserPageComponent,
-    RecipePageComponent
+    RecipePageComponent,
+    CatalogComponent
   ],
   imports: [
     RouterModule.forRoot([
@@ -45,9 +47,11 @@ import { RecipePageComponent } from './recipe-page/recipe-page.component';
       { path: 'password-reset-form/:id/:code', component: PasswordResetFormComponent },
       { path: 'sign-in', component: SignInComponent },
       { path: 'sign-up', component: SignUpComponent },
-      { path: 'recipe-create', component:RecipeCreateComponent},
-      {path:'userpage',component:UserPageComponent},
-      {path:'recipepage/:id',component:RecipePageComponent}
+      { path: 'recipe-create', component: RecipeCreateComponent },
+      { path: 'userpage', component: UserPageComponent },
+      { path: 'recipe-page/:id', component: RecipePageComponent },
+      { path: 'catalog', component: CatalogComponent },
+      { path: 'catalog/:title', component: CatalogComponent }
     ]),
     BrowserModule,
     ReactiveFormsModule,
