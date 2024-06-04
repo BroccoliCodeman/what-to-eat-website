@@ -23,7 +23,7 @@ export class CatalogComponent {
   pagination : any;
 
   searchInputFocused:boolean=false;
-  
+
   ingredientsList:SelectedIngredient[]=[];
   recipesSearchList:RecipeShort[]=[];
 
@@ -36,7 +36,6 @@ export class CatalogComponent {
       this.title = params.get('title') || '';
     });
     this.searchRecipes();
-
     this.selectedIngredients=this.selectedIngredientsService.selectedIngredients;
   }
 
@@ -60,7 +59,6 @@ export class CatalogComponent {
             };
           } else {
             console.error('Error:', error);
-            // Handle other types of errors as needed.
           }
         }
       });
@@ -79,6 +77,7 @@ export class CatalogComponent {
       this.loadRecipesForPage(previousPage);
     }
   }
+
   getPageNumbers(): number[] {
     const totalPages = this.pagination.TotalPages;
     const currentPage = this.pagination.CurrentPage;

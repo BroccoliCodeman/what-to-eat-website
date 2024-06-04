@@ -5,10 +5,15 @@
   <article class="search">
     <form (ngSubmit)="searchRecipes()" #recipeForm="ngForm">
       <div class="form-group">
-        <div *ngIf="selectedIngredients.length>0" style="display: flex;">
+        <div *ngIf="selectedIngredients.length > 0" style="display: flex">
           <label>Вибрані Інгредієнти: </label>
-          <div *ngFor="let selectedIngredient of selectedIngredients; let i=index">
-            {{selectedIngredient}}
+          <div
+            *ngFor="
+              let selectedIngredient of selectedIngredients;
+              let i = index
+            "
+          >
+            {{ selectedIngredient }}
           </div>
         </div>
         <div class="search-container">
@@ -20,19 +25,42 @@
             [(ngModel)]="title"
             placeholder="Введіть інгредієнти або назву рецепту"
             (input)="searchInputChange()"
-            (focus)="searchInputFocused=true" 
+            (focus)="searchInputFocused = true"
             (blur)="searchInputBlur()"
           />
           <button type="submit" class="search-button">Знайти рецепти</button>
         </div>
         <div>
-          <ul *ngIf="searchInputFocused==true" style="position: absolute;list-style-type: none;">
-            <li class="search-li"  *ngFor="let recipe of recipesSearchList; let i=index"  routerLink="/recipe-page/{{recipe.id}}">
-                <img src="../../assets/images/recipe-icon.png" style="height: auto;width:28px; margin-right: 5px;" alt="recipe-photo"> {{recipe.title}}<h6 style="margin-left: 2px;"> - Страва</h6>
+          <ul
+            *ngIf="searchInputFocused == true"
+            style="position: absolute; list-style-type: none"
+          >
+            <li
+              class="search-li"
+              *ngFor="let recipe of recipesSearchList; let i = index"
+              routerLink="/recipe-page/{{ recipe.id }}"
+            >
+              <img
+                src="../../assets/images/recipe-icon.png"
+                style="height: auto; width: 28px; margin-right: 5px"
+                alt="recipe-photo"
+              />
+              {{ recipe.title }}
+              <h6 style="margin-left: 2px">- Страва</h6>
             </li>
-            <li class="search-li" *ngFor="let ingredient of ingredientsList; let i=index" (click)="addIngredient(i)">
-              <img src="../../assets/images/ingredient-icon.png" style="height: auto;width:28px; margin-right: 5px;" alt="recipe-photo">  {{ingredient.name}}  <h6 style="margin-left: 2px;"> - Інгредієнт</h6>
-          </li>
+            <li
+              class="search-li"
+              *ngFor="let ingredient of ingredientsList; let i = index"
+              (click)="addIngredient(i)"
+            >
+              <img
+                src="../../assets/images/ingredient-icon.png"
+                style="height: auto; width: 28px; margin-right: 5px"
+                alt="recipe-photo"
+              />
+              {{ ingredient.name }}
+              <h6 style="margin-left: 2px">- Інгредієнт</h6>
+            </li>
           </ul>
         </div>
       </div>
@@ -40,7 +68,7 @@
   </article>
 </section>
 
-<section class="cards-container" style="border-top:solid 2px gray;">
+<section class="cards-container" style="border-top: solid 2px gray">
   <div
     class="card"
     *ngFor="let recipe of recipes"
@@ -55,13 +83,18 @@
       <div class="user-container">
         <div class="avatar">
           <img
-            [src]="user?.avatar || '../../assets/images/default_user.jpg'"
+            [src]="
+              this.recipe?.user?.avatar ||
+              '../../assets/images/default_user.jpg'
+            "
             alt="Avatar"
             class="avatar"
           />
         </div>
         <div class="sub-user-container">
-          <p class="username">Username</p>
+          <p class="username">
+            {{ recipe.user.firstName }} {{ recipe.user.lastName }}
+          </p>
           <p class="date">
             <i class="fas fa-calendar-alt" style="font-size: 1.4rem"></i>
             {{ recipe.creationDate | date }}
@@ -78,8 +111,7 @@
       class="previous"
       [disabled]="!pagination.HasPrevious"
       (click)="loadPreviousPage(); scrollToTop()"
-    >
-    </button>
+    ></button>
     <ng-container *ngFor="let page of getPageNumbers()">
       <button
         class="pageNumbers"
