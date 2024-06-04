@@ -21,24 +21,14 @@
 
   <article class="search">
     <div>
-      <label>Вибрані інгредієнти: </label>
-    </div>
-    <div>
-      <input
-        type="text"
-        placeholder="Введіть інгредієнти або назву рецепту"
-        class="search-input"
-      />
-      <div class="search-button"><a href="#">Знайти рецепти</a></div>
+      <input type="text" placeholder="Введіть назву рецепту" class="search-input" 
+         [(ngModel)]="searchInputText"/>
+      <div class="search-button" routerLink="/catalog/{{searchInputText}}">Знайти рецепти</div>
     </div>
     <section class="recommendation-container">
       <h2>Популярні запити</h2>
       <ul>
         <li>картопля з овочами</li>
-        <li>борщ</li>
-        <li>гарбузова каша</li>
-        <li>пиріг з яблуками</li>
-        <li>салат з кавуном і медом</li>
       </ul>
     </section>
 

@@ -4,6 +4,11 @@ import { RecipesService } from '../services/recipes.service';
 import { Recipe } from '../interfaces/recipe.interface';
 import { User } from '../interfaces/user.interface';
 import { HttpResponse } from '@angular/common/http';
+import { SelectedIngredient } from '../interfaces/selectedIngredient.interface';
+import { RecipeShort } from '../interfaces/recipeShort.interface';
+import { IngredientsService } from '../services/ingredients.service';
+import { SelectedIngredientsService } from '../services/selectedIngredients.service';
+import { delay } from 'rxjs';
 @Component({
   selector: 'app-catalog',
   templateUrl: './catalog.component.html',
@@ -17,13 +22,22 @@ export class CatalogComponent {
   user: User | undefined;
   pagination : any;
 
-  constructor(private recipeService: RecipesService, private route: ActivatedRoute, private router: Router) { }
+  searchInputFocused:boolean=false;
+  
+  ingredientsList:SelectedIngredient[]=[];
+  recipesSearchList:RecipeShort[]=[];
+
+  selectedIngredients:SelectedIngredient[]=[];
+
+  constructor(private recipeService: RecipesService, private route: ActivatedRoute, private router: Router,private ingredientsService:IngredientsService,private selectedIngredientsService:SelectedIngredientsService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.title = params.get('title') || '';
     });
     this.searchRecipes();
+
+    this.selectedIngredients=this.selectedIngredientsService.selectedIngredients;
   }
 
   searchRecipes(): void {
@@ -113,5 +127,45 @@ export class CatalogComponent {
       top: 0,
       behavior: 'smooth'
     });
+  }
+
+  searchInputChange(){
+    if(this.title.length>0){
+      this.recipeService.getRecipesByNameLike(this.title)
+      .subscribe((res:any)=>{
+        if(res.statusCode==200){
+          this.recipesSearchList=res.data;
+        }else if(res.data.length==0){
+          this.recipesSearchList=[];
+        }
+      }
+    );
+    this.ingredientsService.getIngredientsByNameLike(this.title)
+      .subscribe((res:any)=>{
+        if(res.statusCode==200){
+          this.ingredientsList=res.data;
+        }else if(res.data.length==0){
+          this.ingredientsList=[];
+        }
+      }
+    );
+    }else{
+      this.ingredientsList=[];
+      this.recipesSearchList=[];
+    }
+  }
+
+  searchInputBlur(){
+    setTimeout(() => this.searchInputFocused=false, 100);
+  }
+
+  //IngredientsLogic
+  addIngredient(index:number){
+    this.selectedIngredientsService.addtoList(this.ingredientsList[index]);
+    this.ingredientsList.splice(index, 1);
+  }
+
+  deleteIngredient(index:number){
+    this.selectedIngredientsService.removeSelectedIngredient(index);
   }
 }
