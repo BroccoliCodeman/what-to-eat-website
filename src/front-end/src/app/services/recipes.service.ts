@@ -31,9 +31,10 @@ export class RecipesService {
     );
   }
 
-   getIngredientsByNameLike(string:string): Observable<RecipeShort[]> {
-    return this.http.get<RecipeShort[]>(
-      `http://localhost:5000/api/Recipe/GetByTitle/${string}`
+   getRecipesByNameLike(string:string): Observable<HttpResponse<RecipeShort[]>> {
+    const params = new HttpParams().set('title', string);
+    return this.http.get<HttpResponse<RecipeShort[]>>(
+      `http://localhost:5000/api/Recipe/GetByTitle`,{params}
     );
   }
 

@@ -27,6 +27,8 @@
   background-color: #ffb000;
   color: #fff;
   font-weight: 600;
+  margin-top: 20px;
+  height: 18px;
   border: none;
   padding: 13px 30px;
   border-radius: 20px;
@@ -36,6 +38,7 @@
 .search-button:hover {
   background-color: #004225;
   transition: background-color 100ms linear;
+  cursor: pointer;
 }
 
 .search-button a {

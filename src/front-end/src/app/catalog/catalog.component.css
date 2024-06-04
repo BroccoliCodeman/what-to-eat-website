@@ -12,6 +12,7 @@
 .search {
   width: 80%;
   margin: 0px auto;
+  margin-top: 30px;
 }
 
 .search-container {
@@ -54,6 +55,22 @@
 .search-button a {
   text-decoration: none;
   color: #fff;
+}
+
+.search-li{
+  margin-left: 10px;
+  background-color: white;
+  border: 1px solid #ccc;
+  width: 61vw;
+  height: auto;
+  padding-left: 10px;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+}
+.search-li:hover{
+  background-color: lightgray;
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 791px) {
