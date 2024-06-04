@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
+import { User } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AuthService {
    }
    forgotPassword(email: string): Observable<any> {
     const params = new HttpParams().set('Email', email);
-  
+
     return this.http.post(`http://localhost:5000/api/Auth/ForgotPassword`, null, { params }).pipe(
       catchError(this.handleError)
     );
@@ -27,12 +28,12 @@ export class AuthService {
       const headers=new HttpHeaders()
       .set('Content-Type','application/json')
       .set('accept','*/*');
-      
+
     return this.http.post(`http://localhost:5000/api/Auth/ResetPassword`, null, {headers:headers,params: params} ).pipe(
       catchError(this.handleError)
     );
   }
-  
+
 
   logInUser(email: string, password: string): Observable<any> {
     const obj = {
