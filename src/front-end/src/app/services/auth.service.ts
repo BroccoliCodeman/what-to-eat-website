@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
+import { User } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AuthService {
    }
    forgotPassword(email: string): Observable<any> {
     const params = new HttpParams().set('Email', email);
-  
+
     return this.http.post(`http://localhost:5000/api/Auth/ForgotPassword`, null, { params }).pipe(
       catchError(this.handleError)
     );
@@ -27,12 +28,12 @@ export class AuthService {
       const headers=new HttpHeaders()
       .set('Content-Type','application/json')
       .set('accept','*/*');
-      
+
     return this.http.post(`http://localhost:5000/api/Auth/ResetPassword`, null, {headers:headers,params: params} ).pipe(
       catchError(this.handleError)
     );
   }
-  
+
 
   logInUser(email: string, password: string): Observable<any> {
     const obj = {
@@ -72,8 +73,28 @@ export class AuthService {
   }
 
   getUser(): Observable<any> {
-
     return this.http.get(`http://localhost:5000/api/Auth/`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getSavedRecipes(id: string) {
+    return this.http.get(`http://localhost:5000/api/Recipe/GetRecipesByUserId/${id}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  updateUser(user:any){
+    return this.http.put(`http://localhost:5000/api/Auth/`, user).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  saveRecipe(userId: string, recipeId:string){
+    if (recipeId === "" || userId === ""){
+      alert("Error while saving recipe!")
+    }
+    return this.http.post(`http://localhost:5000/api/Recipe/SaveRecipe?UserId=${userId}&RecipeId=${recipeId}`, null).pipe(
       catchError(this.handleError)
     );
   }

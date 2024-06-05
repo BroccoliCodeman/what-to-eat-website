@@ -25,14 +25,15 @@
     <div *ngIf="!isAuthorized" class="signUp">
       <a routerLink="/sign-up" aria-label="Sign up">Зареєструватися</a>
     </div>
+
+    <div *ngIf="isAuthorized" style="border: none; text-align: center">
+      <a routerLink="/userpage" aria-label="User Page">Налаштування профілю</a>
+    </div>
     <div
       *ngIf="isAuthorized"
       style="border: none; cursor: pointer; text-align: center"
     >
       <a aria-label="logout" (click)="logout()">Вийти</a>
-    </div>
-    <div *ngIf="isAuthorized" style="border: none; text-align: center">
-      <a routerLink="/userpage" aria-label="User Page">Налаштування профілю</a>
     </div>
   </div>
 </header>

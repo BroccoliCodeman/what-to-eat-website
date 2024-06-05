@@ -22,7 +22,7 @@ export class CatalogComponent {
   pagination : any;
 
   searchInputFocused:boolean=false;
-  
+
   ingredientsList:SelectedIngredient[]=[];
   recipesSearchList:RecipeShort[]=[];
 
@@ -98,6 +98,7 @@ export class CatalogComponent {
       this.loadRecipesForPage(previousPage);
     }
   }
+
   getPageNumbers(): number[] {
     const totalPages = this.pagination.TotalPages;
     const currentPage = this.pagination.CurrentPage;

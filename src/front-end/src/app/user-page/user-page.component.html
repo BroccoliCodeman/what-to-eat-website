@@ -2,19 +2,26 @@
 <app-header></app-header>
 <div class="user-profile">
   <h1>Налаштування профілю</h1>
-  <div class="avatar-container">
-    <img
-      [src]="user?.avatar || '../../assets/images/default_user.jpg'"
-      alt="Avatar"
-      class="avatar"
-    />
-    <button (click)="changeAvatar()" class="changeAvatar">+</button>
-  </div>
   <form
     [formGroup]="profileForm"
     (ngSubmit)="saveProfile()"
     class="profile-form"
   >
+    <div class="avatar-container">
+      <img
+        [src]="user?.avatar || '../../assets/images/default_user.jpg'"
+        alt="Avatar"
+        class="avatar"
+      />
+      <label for="avatar-input-file" class="changeAvatar">+</label>
+      <input
+        type="file"
+        id="avatar-input-file"
+        accept="image/*"
+        (change)="onFileChange($event)"
+        style="display: none"
+      />
+    </div>
     <div class="name-fields">
       <div class="form-group">
         <label for="firstName">Ім'я</label>
@@ -24,35 +31,33 @@
         <label for="lastName">Прізвище</label>
         <input type="text" id="lastName" formControlName="lastName" />
       </div>
-      <button class="namesChange">Зберегти зміни</button>
+      <button
+        type="submit"
+        class="namesChange"
+        [disabled]="profileForm.invalid"
+      >
+        Зберегти зміни
+      </button>
     </div>
     <a routerLink="/password-reset" class="password-reset"
-      >Забули пароль? Створіть новий
-    </a>
-    <div class="password-fields">
-      <div class="form-group">
-        <label for="newPassword">Новий пароль</label>
-        <div class="password-container">
-          <input
-            type="password"
-            id="newPassword"
-            formControlName="newPassword"
-          />
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="confirmPassword">Повторіть новий пароль</label>
-        <div class="password-container">
-          <input
-            type="password"
-            id="confirmPassword"
-            formControlName="confirmPassword"
-          />
-        </div>
+      >Забули пароль? Створіть новий</a
+    >
+  </form>
+
+  <div class="savedRecipes-container">
+    <p>Збережені рецепти: {{ savedRecipes.length || 0 }}</p>
+  </div>
+  <div class="recipe-cards">
+    <div
+      class="recipe-card"
+      (click)="goToRecipePage(recipe.id)"
+      *ngFor="let recipe of savedRecipes"
+    >
+      <img [src]="recipe.photo" alt="{{ recipe.title }}" />
+      <h3 class="recipe-title">{{ recipe.title }}</h3>
+      <div class="recipe-info">
+        <p class="recipe-date">{{ recipe.creationDate | date : "longDate" }}</p>
       </div>
     </div>
-    <button type="submit" [disabled]="profileForm.invalid">
-      Зберегти пароль
-    </button>
-  </form>
+  </div>
 </div>
