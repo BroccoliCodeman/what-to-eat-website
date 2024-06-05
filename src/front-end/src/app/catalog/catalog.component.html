@@ -5,12 +5,15 @@
   <article class="search">
     <form (ngSubmit)="searchRecipes()" #recipeForm="ngForm">
       <div class="form-group">
-        <div *ngIf="selectedIngredients.length>0" style="display: flex;">
+
+        <div *ngIf="selectedIngredients.length>0" style="display: flex; align-items: center; flex-wrap: wrap; gap: 10px;">
           <label>Вибрані Інгредієнти: </label>
-          <div *ngFor="let selectedIngredient of selectedIngredients; let i=index">
-            {{selectedIngredient}}
+          <div *ngFor="let selectedIngredient of selectedIngredients; let i=index" style="display: flex;">
+            <label class="selectedIngredient-div">{{selectedIngredient.name}}</label>
+            <button class="selectedIngredient-btn" (click)="deleteIngredient(i)">X</button>
           </div>
         </div>
+
         <div class="search-container">
           <input
             type="text"
@@ -25,6 +28,7 @@
           />
           <button type="submit" class="search-button">Знайти рецепти</button>
         </div>
+
         <div>
           <ul *ngIf="searchInputFocused==true" style="position: absolute;list-style-type: none;">
             <li class="search-li"  *ngFor="let recipe of recipesSearchList; let i=index"  routerLink="/recipe-page/{{recipe.id}}">
@@ -35,12 +39,28 @@
           </li>
           </ul>
         </div>
+
       </div>
     </form>
   </article>
 </section>
 
+<div style="float:left; margin-left:12vw;">
+    <label>Кількість результатів: <b>({{pagination.TotalCount}})</b></label>
+</div>
+<div style="float: right; margin-right: 12vw;">
+  <label>Сортувати за:</label>
+  <select (change)="searchRecipes()" [(ngModel)]="selectedSortOption" id="sort-select">
+      <option>--Виберіть--</option>
+      <option *ngFor="let sortoption of sortOptions; let i=index">
+          {{sortoption}}
+      </option>
+  </select>
+</div><br><br>
+
 <section class="cards-container" style="border-top:solid 2px gray;">
+  <label *ngIf="recipes.length==0" style=" font-size:30px;">Немає результатів.</label>
+  
   <div
     class="card"
     *ngFor="let recipe of recipes"
@@ -55,16 +75,19 @@
       <div class="user-container">
         <div class="avatar">
           <img
-            [src]="user?.avatar || '../../assets/images/default_user.jpg'"
+            src='../../assets/images/avatar-placeholder.png'
             alt="Avatar"
             class="avatar"
           />
         </div>
         <div class="sub-user-container">
-          <p class="username">Username</p>
+          <p class="username">username</p>
           <p class="date">
             <i class="fas fa-calendar-alt" style="font-size: 1.4rem"></i>
             {{ recipe.creationDate | date }}
+          </p>
+          <p>
+            
           </p>
         </div>
       </div>
