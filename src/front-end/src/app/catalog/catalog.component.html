@@ -11,15 +11,6 @@
           <div *ngFor="let selectedIngredient of selectedIngredients; let i=index" style="display: flex;">
             <label class="selectedIngredient-div">{{selectedIngredient.name}}</label>
             <button class="selectedIngredient-btn" (click)="deleteIngredient(i)">X</button>
-        <div *ngIf="selectedIngredients.length > 0" style="display: flex">
-          <label>Вибрані Інгредієнти: </label>
-          <div
-            *ngFor="
-              let selectedIngredient of selectedIngredients;
-              let i = index
-            "
-          >
-            {{ selectedIngredient }}
           </div>
         </div>
 
@@ -89,51 +80,48 @@
       </option>
   </select>
 </div><br><br>
-
-<section class="cards-container" style="border-top:solid 2px gray;">
-  <label *ngIf="recipes.length==0" style=" font-size:30px;">Немає результатів.</label>
   
-<section class="cards-container" style="border-top: solid 2px gray">
-  <div
-    class="card"
-    *ngFor="let recipe of recipes"
-    (click)="goToRecipePage(recipe.id)"
-  >
+  <section class="cards-container" style="border-top: solid 2px gray">
+    <label *ngIf="recipes.length == 0" style="font-size: 30px"
+      >Немає результатів.</label
+    >
+  
     <div
-      class="card-img-top"
-      [style.backgroundImage]="'url(' + recipe.photo + ')'"
-    ></div>
-    <div class="card-body">
-      <h5 class="card-title">{{ recipe.title }}</h5>
-      <div class="user-container">
-        <div class="avatar">
-          <img
-            src='../../assets/images/avatar-placeholder.png'
-            [src]="
-              this.recipe?.user?.avatar ||
-              '../../assets/images/default_user.jpg'
-            "
-            alt="Avatar"
-            class="avatar"
-          />
-        </div>
-        <div class="sub-user-container">
-          <p class="username">username</p>
-          <p class="username">
-            {{ recipe.user.firstName }} {{ recipe.user.lastName }}
-          </p>
-          <p class="date">
-            <i class="fas fa-calendar-alt" style="font-size: 1.4rem"></i>
-            {{ recipe.creationDate | date }}
-          </p>
-          <p>
-            
-          </p>
+      class="card"
+      *ngFor="let recipe of recipes"
+      (click)="goToRecipePage(recipe.id)"
+    >
+      <div
+        class="card-img-top"
+        [style.backgroundImage]="'url(' + recipe.photo + ')'"
+      ></div>
+      <div class="card-body">
+        <h5 class="card-title">{{ recipe.title }}</h5>
+        <div class="user-container">
+          <div class="avatar">
+            <img
+              src="../../assets/images/avatar-placeholder.png"
+              [src]="
+                this.recipe?.user?.avatar ||
+                '../../assets/images/default_user.jpg'
+              "
+              alt="Avatar"
+              class="avatar"
+            />
+          </div>
+          <div class="sub-user-container">
+            <p class="username">
+              {{ recipe.user.firstName }} {{ recipe.user.lastName }}
+            </p>
+            <p class="date">
+              <i class="fas fa-calendar-alt" style="font-size: 1.4rem"></i>
+              {{ recipe.creationDate | date }}
+            </p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
 <div class="pagination-container">
   <div class="pagination" *ngIf="pagination">
