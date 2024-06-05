@@ -13,7 +13,14 @@
         alt="Avatar"
         class="avatar"
       />
-      <button (click)="changeAvatar()" class="changeAvatar">+</button>
+      <label for="avatar-input-file" class="changeAvatar">+</label>
+      <input
+        type="file"
+        id="avatar-input-file"
+        accept="image/*"
+        (change)="onFileChange($event)"
+        style="display: none"
+      />
     </div>
     <div class="name-fields">
       <div class="form-group">
@@ -24,14 +31,33 @@
         <label for="lastName">Прізвище</label>
         <input type="text" id="lastName" formControlName="lastName" />
       </div>
-      <button class="namesChange">Зберегти зміни</button>
+      <button
+        type="submit"
+        class="namesChange"
+        [disabled]="profileForm.invalid"
+      >
+        Зберегти зміни
+      </button>
     </div>
     <a routerLink="/password-reset" class="password-reset"
-      >Забули пароль? Створіть новий
-    </a>
+      >Забули пароль? Створіть новий</a
+    >
   </form>
 
   <div class="savedRecipes-container">
-    <p>Збережені рецепти: {{ user.savedRecipes }}</p>
+    <p>Збережені рецепти: {{ savedRecipes.length || 0 }}</p>
+  </div>
+  <div class="recipe-cards">
+    <div
+      class="recipe-card"
+      (click)="goToRecipePage(recipe.id)"
+      *ngFor="let recipe of savedRecipes"
+    >
+      <img [src]="recipe.photo" alt="{{ recipe.title }}" />
+      <h3 class="recipe-title">{{ recipe.title }}</h3>
+      <div class="recipe-info">
+        <p class="recipe-date">{{ recipe.creationDate | date : "longDate" }}</p>
+      </div>
+    </div>
   </div>
 </div>

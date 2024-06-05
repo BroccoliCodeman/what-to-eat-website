@@ -73,8 +73,28 @@ export class AuthService {
   }
 
   getUser(): Observable<any> {
-
     return this.http.get(`http://localhost:5000/api/Auth/`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getSavedRecipes(id: string) {
+    return this.http.get(`http://localhost:5000/api/Recipe/GetRecipesByUserId/${id}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  updateUser(user:any){
+    return this.http.put(`http://localhost:5000/api/Auth/`, user).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  saveRecipe(userId: string, recipeId:string){
+    if (recipeId === "" || userId === ""){
+      alert("Error while saving recipe!")
+    }
+    return this.http.post(`http://localhost:5000/api/Recipe/SaveRecipe?UserId=${userId}&RecipeId=${recipeId}`, null).pipe(
       catchError(this.handleError)
     );
   }

@@ -78,6 +78,64 @@ h2 {
   }
 }
 
+.calories {
+  margin-top: 50px;
+  font-size: 2rem;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: 700;
+  border: 3px solid #004225;
+  border-radius: 40%;
+  padding: 10px;
+  text-align: center;
+}
+
+.cookingTime {
+  font-size: 1.5rem;
+  text-align: right;
+  margin-top: 10px;
+  font-weight: 700;
+  font-style: italic;
+  text-decoration: underline;
+}
+
+.postUser {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 500px;
+}
+
+.user-block {
+  display: flex;
+  align-items: center;
+}
+
+.buttonSaveRecipe {
+  border: none;
+  background: #ffb000;
+  border-radius: 50%;
+  cursor: pointer;
+  justify-content: flex-end;
+}
+
+.buttonSaveRecipe[disabled] {
+  cursor: not-allowed;
+}
+
+.buttonSaveRecipe[disabled] .saveRecipe:hover {
+  color: white;
+}
+
+.saveRecipe {
+  font-size: 1.2rem;
+  color: white;
+  padding: 10px 15px;
+}
+
+.saveRecipe:hover {
+  color: black;
+}
+
 .firstLayer-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -86,7 +144,7 @@ h2 {
 }
 
 .photo {
-  max-width: 300px;
+  max-width: 500px;
   height: auto;
   margin-bottom: 20px;
 }
@@ -139,34 +197,108 @@ hr {
   border: 3px solid #004225;
 }
 
-/* Responsive adjustments */
+.secondLayer-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 3rem;
+  grid-template-areas: "reviews cooking-steps";
+}
+
+.cooking-steps {
+  grid-area: cooking-steps;
+}
+
+.reviews-container {
+  margin-right: 20px;
+  grid-area: reviews;
+}
+
+.review-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+  max-width: 400px;
+  width: 100%;
+  font-family: Arial, sans-serif;
+  font-size: 1.2rem;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.user-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.user-details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.user-name {
+  font-size: 1.2em;
+  margin-right: 10px;
+}
+
+.stars {
+  color: #ffd700;
+  font-size: 1.5em;
+}
+
+.review-text {
+  font-size: 1rem;
+  color: #333;
+}
+
+.noReviews {
+  margin-top: 20px;
+  font-style: italic;
+  text-align: center;
+  font-size: 1.3rem;
+}
+
 @media (max-width: 800px) {
-  @media (max-width: 800px) {
-    .firstLayer-container {
-      grid-template-columns: 1fr;
-      grid-row-gap: 2.5rem;
-    }
+  .firstLayer-container {
+    grid-template-columns: 1fr;
+    grid-row-gap: 2.5rem;
+  }
 
-    .secondLayer-container {
-      display: flex;
-      flex-direction: column;
-    }
+  .secondLayer-container {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "cooking-steps"
+      "reviews";
+  }
 
-    .photo-container {
-      text-align: center;
-    }
+  .reviews-container {
+    grid-column-end: 1;
+    margin: 0 auto;
+  }
 
-    .description {
-      max-width: 80%;
-    }
+  .photo-container {
+    text-align: center;
+  }
 
-    .review {
-      order: 2;
-    }
+  .description {
+    max-width: 80%;
+  }
 
-    .cooking-steps {
-      order: 1;
-    }
+  .review {
+    order: 2;
+  }
+
+  .cooking-steps {
+    order: 1;
   }
 }
 
@@ -201,20 +333,16 @@ hr {
   .photo {
     max-width: 100%;
   }
-}
 
-.secondLayer-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: 2.5rem;
-}
+  .review-card {
+    max-width: 250px;
+  }
 
-.review {
-  font-style: italic;
-}
+  .user-name {
+    font-size: 1.1rem;
+  }
 
-@media (max-width: 800px) {
-  .secondLayer-container {
-    grid-template-columns: 1fr;
+  .stars {
+    font-size: 1.2em;
   }
 }

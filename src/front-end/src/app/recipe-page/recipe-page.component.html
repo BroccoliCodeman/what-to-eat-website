@@ -3,9 +3,9 @@
 <div *ngIf="recipe" class="container">
   <div class="banner">
     <div>
-      <a routerLink="/catalog"
-        ><i class="goBack fa fa-long-arrow-left" aria-hidden="true"></i
-      ></a>
+      <a routerLink="/catalog">
+        <i class="goBack fa fa-long-arrow-left" aria-hidden="true"></i>
+      </a>
     </div>
     <h1>{{ recipe.title }}</h1>
   </div>
@@ -15,6 +15,23 @@
   <div class="firstLayer-container">
     <div class="photo-container">
       <img [src]="recipe.photo" alt="Recipe Photo" class="photo" />
+      <div class="postUser">
+        <div class="user-block">
+          <img [src]="recipe.user.avatar" alt="User Image" class="user-image" />
+          {{ recipe.user.firstName }} {{ recipe.user.lastName }}
+        </div>
+        <p class="date">
+          <i class="fas fa-calendar-alt" style="font-size: 1.4rem"></i>
+          {{ recipe.creationDate | date }}
+        </p>
+        <button
+          [disabled]="isNotSaved"
+          class="buttonSaveRecipe"
+          (click)="saveRecipe()"
+        >
+          <i class="saveRecipe fa-regular fa-bookmark"></i>
+        </button>
+      </div>
     </div>
     <div class="ingredients">
       <h2>
@@ -31,18 +48,43 @@
           >
         </li>
       </ul>
+
+      <div class="calories">Калорій: {{ recipe.calories }}</div>
+      <div class="cookingTime">
+        Час приготування: {{ recipe.cookingTime }} хв
+      </div>
     </div>
   </div>
 
   <div class="secondLayer-container">
-    <div class="review">
-      <h2>
-        Відгуки
-        <hr />
-        <br />
-      </h2>
+    <div class="reviews-container">
+      <h2>Відгуки</h2>
+      <hr />
+      <br />
+      <div *ngIf="recipe.responds.length > 0; else noReviews">
+        <div class="review-card" *ngFor="let respond of recipe.responds">
+          <div class="review-header">
+            <div>
+              <img
+                [src]="respond.user.avatar"
+                alt="User Image"
+                class="user-image"
+              />
+            </div>
 
-      <p>{{ recipe.responds }}</p>
+            <div class="user-details">
+              <h3 class="user-name">
+                {{ respond.user.firstName }} {{ respond.user.lastName }}
+              </h3>
+              <div class="stars" [innerHTML]="getStars(respond.rate)"></div>
+            </div>
+          </div>
+          <p class="review-text">{{ respond.text }}</p>
+        </div>
+      </div>
+      <ng-template #noReviews>
+        <div class="noReviews"><p>Ніхто не написав відгук</p></div>
+      </ng-template>
     </div>
 
     <div class="cooking-steps">

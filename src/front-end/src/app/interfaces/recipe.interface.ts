@@ -14,7 +14,7 @@ export interface Recipe{
     creationDate:Date,
     ingredients:Ingredient[],
     cookingSteps:CookingStep[],
-    responds:Respond,
+    responds:Respond[],
     user:User,
     savedRecipes:number
 }
