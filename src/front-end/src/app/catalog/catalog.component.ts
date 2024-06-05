@@ -20,7 +20,7 @@ export class CatalogComponent {
   recipes: Recipe[] = [];
   user: User | undefined;
   pagination : any;
-
+  TotalCount : number = 0;
   searchInputFocused:boolean=false;
 
   ingredientsList:SelectedIngredient[]=[];
@@ -56,8 +56,8 @@ export class CatalogComponent {
       .subscribe({
         next: (response: HttpResponse<any>) => {
           this.recipes = response.body.data ?? [];
-          console.log(response.body.data);
           this.pagination = JSON.parse(response.headers.get('X-Pagination') || '{}');
+          this.TotalCount = this.pagination.TotalCount;
         },
         error: (error: any) => {
           if (error.status === 404) {
@@ -149,31 +149,44 @@ export class CatalogComponent {
     });
   }
 
-  searchInputChange(){
-    if(this.title.length>0){
+  searchInputChange(): void {
+    if (this.title.length > 0) {
+      // Fetch recipes matching the title
       this.recipeService.getRecipesByNameLike(this.title)
-      .subscribe((res:any)=>{
-        if(res.statusCode==200){
-          this.recipesSearchList=res.data;
-        }else if(res.data.length==0){
-          this.recipesSearchList=[];
-        }
-      }
-    );
-    this.ingredientsService.getIngredientsByNameLike(this.title)
-      .subscribe((res:any)=>{
-        if(res.statusCode==200){
-          let data=res.data as SelectedIngredient[];
-          data = data.filter(el => !this.selectedIngredients.some(selected => selected.id === el.id));
-          this.ingredientsList=data;
-        }else if(res.data.length==0){
-          this.ingredientsList=[];
-        }
-      }
-    );
-    }else{
-      this.ingredientsList=[];
-      this.recipesSearchList=[];
+        .subscribe({
+          next: (res: any) => {
+            if (res.statusCode === 200) {
+              this.recipesSearchList = res.data;
+            } else if (res.data.length === 0) {
+              this.recipesSearchList = [];
+            }
+          },
+          error: (error: any) => {
+            console.error('Error fetching recipes:', error);
+            this.recipesSearchList = [];
+          }
+        });
+
+      // Fetch ingredients matching the title
+      this.ingredientsService.getIngredientsByNameLike(this.title)
+        .subscribe({
+          next: (res: any) => {
+            if (res.statusCode === 200) {
+              let data = res.data as SelectedIngredient[];
+              data = data.filter(el => !this.selectedIngredients.some(selected => selected.id === el.id));
+              this.ingredientsList = data;
+            } else if (res.data.length === 0) {
+              this.ingredientsList = [];
+            }
+          },
+          error: (error: any) => {
+            console.error('Error fetching ingredients:', error);
+            this.ingredientsList = [];
+          }
+        });
+    } else {
+      this.ingredientsList = [];
+      this.recipesSearchList = [];
     }
   }
 

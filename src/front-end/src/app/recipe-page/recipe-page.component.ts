@@ -7,42 +7,62 @@ import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-recipe-page',
   templateUrl: './recipe-page.component.html',
-  styleUrls: ['./recipe-page.component.css', ]
+  styleUrls: ['./recipe-page.component.css']
 })
-export class RecipePageComponent implements OnInit{
+export class RecipePageComponent implements OnInit {
 
   recipe: Recipe | null = null;
-  user: any;
-
+  user: any = null;  // Initialize user as null
   isNotSaved: boolean = false;
 
-  constructor(private recipeService: RecipesService, private activatedRouter: ActivatedRoute,  private authService: AuthService) {}
+  constructor(
+    private recipeService: RecipesService,
+    private activatedRouter: ActivatedRoute,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     const id = this.activatedRouter.snapshot.paramMap.get('id') as string || '';
 
-    this.authService.getUser().subscribe((result) => {
-      this.user = result;
-      if (this.user.avatar === 'string') {
-        this.user.avatar = null;
-      }
+    // Fetch user data
+    this.authService.getUser().subscribe({
+      next: (result) => {
+        // Check if result contains an error
+        if (result.error) {
+          console.error('Unauthorized:', result.message);
+          this.user = null;  // Ensure user is null if unauthorized
+        } else {
+          this.user = result;
+          console.log('User fetched:', this.user);
+          if (this.user && this.user.avatar === 'string') {
+            this.user.avatar = null;
+          }
 
-      // Check if the current recipe is saved by the user
-      if (this.user.savedRecipes && this.user.savedRecipes.length > 0) {
-        this.isNotSaved = this.user.savedRecipes.some((recipe: any) => recipe.id === id);
+          // Check if the current recipe is saved by the user
+          if (this.user.savedRecipes && this.user.savedRecipes.length > 0) {
+            this.isNotSaved = this.user.savedRecipes.some((recipe: any) => recipe.id === id);
+          }
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching user:', error);
+        this.user = null;  // Ensure user is null on any error
       }
-
     });
 
-    this.recipeService.getRecipeById(id).subscribe(
-      res => {
-        if (res.statusCode === 200){
+    // Fetch recipe data
+    this.recipeService.getRecipeById(id).subscribe({
+      next: (res) => {
+        if (res.statusCode === 200) {
           this.recipe = res.data;
           this.scrollToTop();
         }
+      },
+      error: (error) => {
+        console.error('Error fetching recipe:', error);
       }
-    );
-}
+    });
+  }
 
   scrollToTop() {
     window.scrollTo({
@@ -59,16 +79,18 @@ export class RecipePageComponent implements OnInit{
     return stars;
   }
 
-  saveRecipe(){
-    this.authService.saveRecipe(this.user.id, this.recipe?.id || "").subscribe(
-      res => {
-        if (res.statusCode === 200){
-         this.ngOnInit();
+  saveRecipe() {
+    if (this.user && this.recipe) {
+      this.authService.saveRecipe(this.user.id, this.recipe.id).subscribe({
+        next: (res) => {
+          if (res.statusCode === 200) {
+            this.ngOnInit();  // Refresh the component to update the UI
+          }
+        },
+        error: (error) => {
+          console.error('Error saving recipe:', error);
         }
-      },
-      error => {
-        console.log("Error: ", error)
-      }
-    );
+      });
+    }
   }
 }

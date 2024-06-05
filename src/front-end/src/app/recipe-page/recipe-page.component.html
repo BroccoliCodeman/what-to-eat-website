@@ -25,6 +25,7 @@
           {{ recipe.creationDate | date }}
         </p>
         <button
+          *ngIf="user"
           [disabled]="isNotSaved"
           class="buttonSaveRecipe"
           (click)="saveRecipe()"
