@@ -11,7 +11,7 @@ export class RecipesService {
 
   constructor(private http: HttpClient) {}
 
-  getRecipes(title: string, ingredients: string[], page: number): Observable<HttpResponse<Recipe[]>> {
+  getRecipes(title: string, ingredients: string[], page: number,sortType:number): Observable<HttpResponse<Recipe[]>> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'accept': 'text/plain'
@@ -21,8 +21,6 @@ export class RecipesService {
       title: title,
       ingredients: ingredients
     };
-
-    const sortType = 0;
 
     return this.http.post<Recipe[]>(
       `http://localhost:5000/api/Recipe/Get?sortType=${sortType}&PageNumber=${page}`,

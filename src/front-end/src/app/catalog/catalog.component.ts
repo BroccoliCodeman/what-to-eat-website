@@ -16,7 +16,6 @@ import { delay } from 'rxjs';
 })
 export class CatalogComponent {
   title: string = '';
-  ingredients: string = '';
 
   recipes: Recipe[] = [];
   user: User | undefined;
@@ -28,6 +27,17 @@ export class CatalogComponent {
   recipesSearchList:RecipeShort[]=[];
 
   selectedIngredients:SelectedIngredient[]=[];
+  selectedSortOption:any;
+  sortOptions:string[]=[
+    'від А до Я',
+    'від Я до А',
+    'за збереженнями',
+    'за збереженнями спадаючи',
+    'за датою',
+    'за датою спадаючи',
+    'за калоріями',
+    'за калоріями спадаючи'
+  ];
 
   constructor(private recipeService: RecipesService, private route: ActivatedRoute, private router: Router,private ingredientsService:IngredientsService,private selectedIngredientsService:SelectedIngredientsService) { }
 
@@ -36,14 +46,17 @@ export class CatalogComponent {
       this.title = params.get('title') || '';
     });
     this.searchRecipes();
+
+    this.selectedIngredientsService.clearCart();
     this.selectedIngredients=this.selectedIngredientsService.selectedIngredients;
   }
 
   searchRecipes(): void {
-    this.recipeService.getRecipes(this.title, [this.ingredients], 1)
+    this.recipeService.getRecipes(this.title, this.getIngredients(), 1,this.getSortType())
       .subscribe({
         next: (response: HttpResponse<any>) => {
           this.recipes = response.body.data ?? [];
+          console.log(response.body.data);
           this.pagination = JSON.parse(response.headers.get('X-Pagination') || '{}');
         },
         error: (error: any) => {
@@ -62,6 +75,14 @@ export class CatalogComponent {
           }
         }
       });
+  }
+
+  getIngredients():string[]{
+    let ingredients:string[]=[];
+    this.selectedIngredients.forEach(
+      x=>ingredients.push(x.name)
+    );
+    return ingredients;
   }
 
   loadNextPage(): void {
@@ -91,7 +112,7 @@ export class CatalogComponent {
   }
 
   loadRecipesForPage(page: number): void {
-    this.recipeService.getRecipes(this.title, [this.ingredients], page)
+    this.recipeService.getRecipes(this.title, this.getIngredients(), page,this.getSortType())
       .subscribe({
         next: (response: HttpResponse<any>) => {
           console.log('Recipes:', response.body);
@@ -142,7 +163,9 @@ export class CatalogComponent {
     this.ingredientsService.getIngredientsByNameLike(this.title)
       .subscribe((res:any)=>{
         if(res.statusCode==200){
-          this.ingredientsList=res.data;
+          let data=res.data as SelectedIngredient[];
+          data = data.filter(el => !this.selectedIngredients.some(selected => selected.id === el.id));
+          this.ingredientsList=data;
         }else if(res.data.length==0){
           this.ingredientsList=[];
         }
@@ -158,9 +181,20 @@ export class CatalogComponent {
     setTimeout(() => this.searchInputFocused=false, 100);
   }
 
+  //sorting
+  getSortType():number{
+    let result=this.sortOptions.indexOf(this.selectedSortOption);
+    if (result>=0){
+      return result+1;
+    }else{
+      return 0;
+    }
+  }
+
   //IngredientsLogic
   addIngredient(index:number){
     this.selectedIngredientsService.addtoList(this.ingredientsList[index]);
+    this.title="";
     this.ingredientsList.splice(index, 1);
   }
 

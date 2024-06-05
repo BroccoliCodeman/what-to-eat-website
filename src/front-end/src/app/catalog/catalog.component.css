@@ -256,3 +256,24 @@ section {
     cursor: pointer;
   }
 }
+
+.selectedIngredient-div{
+  background: lightgray;
+  height: 28px;
+  border-radius: 20px;
+  padding-top: 8px;
+  padding-right: 35px;
+  padding-left: 10px;
+}
+.selectedIngredient-btn{
+  height: 35px;
+  width: 35px;
+  background-color: gray;
+  border-radius: 20px;
+  border: 0px;
+  margin-left: -30px;
+}
+.selectedIngredient-btn:hover{
+  background-color: #949393;
+  cursor: pointer;
+}
