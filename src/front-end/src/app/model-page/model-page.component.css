@@ -1,0 +1,180 @@
+.file-upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 5%;
+}
+
+.upload-button {
+  border: 3px solid #004225;;
+  background-color: #004225;
+  font-family: "Montserrat";
+  color: white;
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.upload-button:hover {
+  background-color: white; 
+  color:#004225;
+}
+
+.drop-zone {
+  font-family: "Montserrat";
+  width: 100%;
+  max-width: 400px;
+  height: 200px;
+  border: 2px dashed black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: black;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.preview-image {
+  max-width: 100%;
+  max-height: 150px;
+  margin-top: 10px;
+}
+
+
+.drop-zone p {
+  font-size: 16px;
+  margin: 0;
+}
+
+.drop-zone.dragover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.main-pg-txt {
+  display: flex;
+  justify-content: center; 
+  align-items: center;      
+  text-align: center;               
+}
+
+/*SEARCHING*/
+.search {
+  width: 60%;
+  margin: 0px auto;
+  margin-top: 30px;
+}
+
+.search-container {
+  position: relative;
+  display: flex;
+}
+
+.search-input {
+  flex: 1;
+  padding: 13px 60px 13px 50px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  outline: none;
+  width: 100%;
+  margin-top: 20px;
+  background-image: url("../../assets/images/search-icon.svg");
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: 15px center;
+}
+
+.search-button {
+  position: absolute;
+  top: 20.5px;
+  right: 0;
+  background-color: #ffb000;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  padding: 13px 30px;
+  border-radius: 20px;
+  margin-left: -100px;
+}
+
+.search-button:hover {
+  background-color: #004225;
+  transition: background-color 100ms linear;
+}
+
+.search-button a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.search-li{
+  margin-left: 10px;
+  background-color: white;
+  border: 1px solid #ccc;
+  width: 61vw;
+  height: auto;
+  padding-left: 10px;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+}
+.search-li:hover{
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 791px) {
+  .search div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .search-input {
+    width: 80%;
+  }
+
+  .search-button {
+    margin: 10px auto;
+    width: 50%;
+    text-align: center;
+    position: static;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .search-input {
+    width: 60%;
+    margin: 0 auto;
+  }
+
+  .search-input::placeholder {
+    content: "Пошук";
+  }
+}
+
+.selectedIngredient-div{
+  background: lightgray;
+  height: 28px;
+  border-radius: 20px;
+  padding-top: 8px;
+  padding-right: 35px;
+  padding-left: 10px;
+}
+.selectedIngredient-btn{
+  height: 35px;
+  width: 35px;
+  background-color: gray;
+  border-radius: 20px;
+  border: 0px;
+  margin-left: -30px;
+}
+.selectedIngredient-btn:hover{
+  background-color: #949393;
+  cursor: pointer;
+}
+/*END SEARCHING*/

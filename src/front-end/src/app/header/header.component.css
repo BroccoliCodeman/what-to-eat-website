@@ -107,13 +107,17 @@ nav {
 
 .signIn {
   background-color: #fff;
+  border-radius: 12px;
   color: #004225;
+  cursor: pointer;
 }
 
 .signUp,
 .signOut {
   background-color: #004225;
+  border-radius: 12px;
   color: #fff;
+  cursor: pointer;
 }
 
 .signIn:hover {

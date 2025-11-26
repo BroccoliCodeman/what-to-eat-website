@@ -65,7 +65,7 @@
             <li
               class="search-li"
               *ngFor="let ingredient of ingredientsList; let i = index"
-              (click)="addIngredient(i)"
+              (mousedown)="addIngredient(i)"
             >
               <img
                 src="../../assets/images/ingredient-icon.png"
@@ -121,11 +121,8 @@
       <div class="user-container">
         <div class="avatar">
           <img
-            src="../../assets/images/avatar-placeholder.png"
-            [src]="
-              this.recipe?.user?.avatar ||
-              '../../assets/images/default_user.jpg'
-            "
+            [src]="recipe.user.avatar || '../../assets/images/default_user.jpg'"
+            (error)="onImageError($event)"
             alt="Avatar"
             class="avatar"
           />
