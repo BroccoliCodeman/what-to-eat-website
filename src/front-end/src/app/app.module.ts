@@ -25,6 +25,8 @@ import { SelectedIngredientsService } from './services/selectedIngredients.servi
 import { IngredientsService } from './services/ingredients.service';
 import { RecipePageComponent } from './recipe-page/recipe-page.component';
 import { CatalogComponent } from './catalog/catalog.component';
+import { ModelPageComponent } from './model-page/model-page.component';
+import { ModelService } from './services/model.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { CatalogComponent } from './catalog/catalog.component';
     RecipeCreateComponent,
     UserPageComponent,
     RecipePageComponent,
-    CatalogComponent
+    CatalogComponent,
+    ModelPageComponent
   ],
   imports: [
     RouterModule.forRoot([
@@ -51,7 +54,8 @@ import { CatalogComponent } from './catalog/catalog.component';
       { path: 'userpage', component: UserPageComponent },
       { path: 'recipe-page/:id', component: RecipePageComponent },
       { path: 'catalog', component: CatalogComponent },
-      { path: 'catalog/:title', component: CatalogComponent }
+      { path: 'catalog/:title', component: CatalogComponent },
+      { path: 'modelpage', component: ModelPageComponent },
     ]),
     BrowserModule,
     ReactiveFormsModule,
@@ -76,6 +80,7 @@ import { CatalogComponent } from './catalog/catalog.component';
     RecipesService,
     SelectedIngredientsService,
     IngredientsService,
+    ModelService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true}
   ],
   bootstrap: [AppComponent]

@@ -51,11 +51,16 @@ export class CatalogComponent {
     this.selectedIngredients=this.selectedIngredientsService.selectedIngredients;
   }
 
+  onImageError(event: any) {
+  event.target.src = 'assets/images/default_user.jpg';
+}
+
   searchRecipes(): void {
     this.recipeService.getRecipes(this.title, this.getIngredients(), 1,this.getSortType())
       .subscribe({
         next: (response: HttpResponse<any>) => {
           this.recipes = response.body.data ?? [];
+          console.log(this.recipes)
           this.pagination = JSON.parse(response.headers.get('X-Pagination') || '{}');
           this.TotalCount = this.pagination.TotalCount;
         },
