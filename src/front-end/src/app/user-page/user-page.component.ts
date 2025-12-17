@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FirebaseService } from '../services/firebase.service';
+import { CloudinaryService } from '../services/cloudinary.service';
 
 @Component({
   selector: 'app-user-page',
@@ -13,13 +14,13 @@ export class UserPageComponent implements OnInit {
   user: any;
   profileForm: FormGroup;
   savedRecipes: any[] = [];
-  files:any;
+  files: any;
 
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
     private router: Router,
-    private firebaseService: FirebaseService
+    private cloudinaryService: CloudinaryService
   ) {
     this.profileForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -29,6 +30,7 @@ export class UserPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.getUser().subscribe((result) => {
+      console.log(result)
       this.user = result;
       if (this.user.avatar === 'string') {
         this.user.avatar = null;
@@ -60,24 +62,35 @@ export class UserPageComponent implements OnInit {
   async saveProfile() {
     if (this.profileForm.valid) {
       if (this.files && this.files.length > 0) {
-        let avatarUrl = await this.firebaseService.putToStorage(this.files[0]);
-        this.user.avatar = avatarUrl;
+        this.cloudinaryService.uploadMedia(this.files[0]).subscribe({
+          next: (imageUrl: string) => {
+            console.log('Uploaded successfully! URL:', imageUrl);
+            let avatarUrl = imageUrl;
+            this.user.avatar = avatarUrl;
+
+            const updatedUser = {
+              ...this.profileForm.value,
+              avatar: this.user.avatar,
+              id: this.user.id,
+              email: this.user.email
+            };
+
+            console.log(updatedUser)
+
+            this.authService.updateUser(updatedUser).subscribe((result) => {
+              if (result.statusCode === 200 || null) {
+                alert("Changes is applied successfully!")
+              }
+              else {
+                alert("Something went wrong!");
+              }
+            });
+          },
+          error: (err) => {
+            console.error('Cloudinary Upload Error:', err);
+          }
+        });
       }
-
-      const updatedUser = {
-        ...this.profileForm.value,
-        avatar: this.user.avatar,
-        id: this.user.id,
-      };
-
-      this.authService.updateUser(updatedUser).subscribe((result) => {
-        if (result.statusCode === 200 || null) {
-          alert("Changes is applied successfully!")
-        }
-        else {
-          alert("Something went wrong!");
-        }
-      });
     }
   }
 

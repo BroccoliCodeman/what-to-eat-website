@@ -19,16 +19,16 @@ export class CatalogComponent {
 
   recipes: Recipe[] = [];
   user: User | undefined;
-  pagination : any;
-  TotalCount : number = 0;
-  searchInputFocused:boolean=false;
+  pagination: any;
+  TotalCount: number = 0;
+  searchInputFocused: boolean = false;
 
-  ingredientsList:SelectedIngredient[]=[];
-  recipesSearchList:RecipeShort[]=[];
+  ingredientsList: SelectedIngredient[] = [];
+  recipesSearchList: RecipeShort[] = [];
 
-  selectedIngredients:SelectedIngredient[]=[];
-  selectedSortOption:any;
-  sortOptions:string[]=[
+  selectedIngredients: SelectedIngredient[] = [];
+  selectedSortOption: any;
+  sortOptions: string[] = [
     'від А до Я',
     'від Я до А',
     'за збереженнями',
@@ -39,24 +39,36 @@ export class CatalogComponent {
     'за калоріями спадаючи'
   ];
 
-  constructor(private recipeService: RecipesService, private route: ActivatedRoute, private router: Router,private ingredientsService:IngredientsService,private selectedIngredientsService:SelectedIngredientsService) { }
+  constructor(private recipeService: RecipesService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private ingredientsService: IngredientsService,
+    private selectedIngredientsService: SelectedIngredientsService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.title = params.get('title') || '';
     });
-    this.searchRecipes();
 
-    this.selectedIngredientsService.clearCart();
-    this.selectedIngredients=this.selectedIngredientsService.selectedIngredients;
+    if (!this.selectedIngredientsService.isFromEronDonDon) {
+      this.searchRecipes();
+
+      this.selectedIngredientsService.clearCart();
+      this.selectedIngredients = this.selectedIngredientsService.selectedIngredients;
+    }
+    else {
+      this.selectedIngredients = this.selectedIngredientsService.selectedIngredients;
+
+      this.searchRecipes();
+    }
   }
 
   onImageError(event: any) {
-  event.target.src = 'assets/images/default_user.jpg';
-}
+    event.target.src = 'assets/images/default_user.jpg';
+  }
 
   searchRecipes(): void {
-    this.recipeService.getRecipes(this.title, this.getIngredients(), 1,this.getSortType())
+    this.recipeService.getRecipes(this.title, this.getIngredients(), 1, this.getSortType())
       .subscribe({
         next: (response: HttpResponse<any>) => {
           this.recipes = response.body.data ?? [];
@@ -82,10 +94,10 @@ export class CatalogComponent {
       });
   }
 
-  getIngredients():string[]{
-    let ingredients:string[]=[];
+  getIngredients(): string[] {
+    let ingredients: string[] = [];
     this.selectedIngredients.forEach(
-      x=>ingredients.push(x.name)
+      x => ingredients.push(x.name)
     );
     return ingredients;
   }
@@ -117,7 +129,7 @@ export class CatalogComponent {
   }
 
   loadRecipesForPage(page: number): void {
-    this.recipeService.getRecipes(this.title, this.getIngredients(), page,this.getSortType())
+    this.recipeService.getRecipes(this.title, this.getIngredients(), page, this.getSortType())
       .subscribe({
         next: (response: HttpResponse<any>) => {
           console.log('Recipes:', response.body);
@@ -195,28 +207,28 @@ export class CatalogComponent {
     }
   }
 
-  searchInputBlur(){
-    setTimeout(() => this.searchInputFocused=false, 100);
+  searchInputBlur() {
+    setTimeout(() => this.searchInputFocused = false, 100);
   }
 
   //sorting
-  getSortType():number{
-    let result=this.sortOptions.indexOf(this.selectedSortOption);
-    if (result>=0){
-      return result+1;
-    }else{
+  getSortType(): number {
+    let result = this.sortOptions.indexOf(this.selectedSortOption);
+    if (result >= 0) {
+      return result + 1;
+    } else {
       return 0;
     }
   }
 
   //IngredientsLogic
-  addIngredient(index:number){
+  addIngredient(index: number) {
     this.selectedIngredientsService.addtoList(this.ingredientsList[index]);
-    this.title="";
+    this.title = "";
     this.ingredientsList.splice(index, 1);
   }
 
-  deleteIngredient(index:number){
+  deleteIngredient(index: number) {
     this.selectedIngredientsService.removeSelectedIngredient(index);
   }
 }

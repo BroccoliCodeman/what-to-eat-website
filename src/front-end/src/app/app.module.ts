@@ -27,6 +27,8 @@ import { RecipePageComponent } from './recipe-page/recipe-page.component';
 import { CatalogComponent } from './catalog/catalog.component';
 import { ModelPageComponent } from './model-page/model-page.component';
 import { ModelService } from './services/model.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { CloudinaryService } from './services/cloudinary.service';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,7 @@ import { ModelService } from './services/model.service';
     BrowserAnimationsModule,
     MatIconModule,
     HttpClientModule,
+    MatProgressSpinnerModule,
     AngularFireModule.initializeApp({
       apiKey: "AIzaSyANn35AMYpOScf91GWmfn9i6t6x6ZY5SAk",
       authDomain: "shopoyisty.firebaseapp.com",
@@ -81,6 +84,7 @@ import { ModelService } from './services/model.service';
     SelectedIngredientsService,
     IngredientsService,
     ModelService,
+    CloudinaryService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi:true}
   ],
   bootstrap: [AppComponent]

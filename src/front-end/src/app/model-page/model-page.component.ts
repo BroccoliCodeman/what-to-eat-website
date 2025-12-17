@@ -9,6 +9,8 @@ import { User } from '../interfaces/user.interface';
 import { IngredientsService } from '../services/ingredients.service';
 import { RecipesService } from '../services/recipes.service';
 import { SelectedIngredientsService } from '../services/selectedIngredients.service';
+import { PredictionResponse } from '../interfaces/predictionResponse.interface';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-model-page',
@@ -23,16 +25,21 @@ export class ModelPageComponent {
   uploaderror: boolean = false;
   //recommendedProducts: ProductWithRating[] = [];
 
+  isUploading: boolean = false;
+
   constructor(private modelService: ModelService,
-      private ingredientsService:IngredientsService,
-      private selectedIngredientsService:SelectedIngredientsService
-  ) {}
+    private ingredientsService: IngredientsService,
+    private selectedIngredientsService: SelectedIngredientsService,
+    private router:Router
+  ) { }
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
     if (this.selectedFile) {
-      this.createFilePreview(this.selectedFile); // Create preview for selected file
+      this.createFilePreview(this.selectedFile);
       this.uploadFile();
+
+      event.target.value = '';
     }
   }
 
@@ -72,93 +79,112 @@ export class ModelPageComponent {
     reader.readAsDataURL(file);
   }
 
-  uploadFile(): void {
-    /*if (this.selectedFile) {
-      this.modelService.uploadImage(this.selectedFile).subscribe(
-        (response: any) => {
-          console.log('Upload success:', response);
-  
-          if (response.result && response.data.length > 0) {
-            const productIds = response.data.map((item: any) => item.productId);
-            this.fetchRecommendedProducts(productIds);
-            this.uploaderror = false;
-          } else {
-            console.log(response);
-            this.uploaderror = true;
-          }
+  uploadFile() {
+    this.isUploading = true;
+    if (this.selectedFile) {
+      this.modelService.uploadImage(this.selectedFile).subscribe({
+        next: (res: PredictionResponse) => {
+          const predictions: string[] = res.results.map(r => r.prediction);
+
+          this.ingredientsService.getMultipleByNames(predictions).subscribe({
+            next: (response: any) => { // Change type to 'any' to handle the wrapper
+              console.log('API Response:', response);
+
+              // Access the actual array inside 'data' (matching your backend Response object)
+              let ingredientsData = response.data as SelectedIngredient[];
+
+              if (ingredientsData && Array.isArray(ingredientsData)) {
+                // Now filter the array
+                const filteredData = ingredientsData.filter(el =>
+                  !this.selectedIngredients.some(selected => selected.id === el.id)
+                );
+
+                this.selectedIngredientsService.addMultipleToList(filteredData);
+              }
+
+              this.isUploading = false;
+            },
+            error: (err) => {
+              console.error('Get ingredients error:', err);
+              this.isUploading = false;
+            }
+          });
         },
-        (error) => {
-          console.error('Upload error:', error);
+        error: (err) => {
+          console.error('Upload error:', err);
+          this.isUploading = false;
         }
-      );
-    }*/
+      });
+    }
   }
+
   //
 
   title: string = '';
-  
-    user: User | undefined;
-    searchInputFocused:boolean=false;
-  
-    ingredientsList:SelectedIngredient[]=[];
-  
-    selectedIngredients:SelectedIngredient[]=[];
-  
-    ngOnInit(): void {
-      this.selectedIngredientsService.clearCart();
-      this.selectedIngredients=this.selectedIngredientsService.selectedIngredients;
-    }
-  
-    getIngredients():string[]{
-      let ingredients:string[]=[];
-      this.selectedIngredients.forEach(
-        x=>ingredients.push(x.name)
-      );
-      return ingredients;
-    }
-  
-  
-    searchInputChange(): void {
-      if (this.title.length > 0) {
-  
-        // Fetch ingredients matching the title
-        this.ingredientsService.getIngredientsByNameLike(this.title)
-          .subscribe({
-            next: (res: any) => {
-              if (res.statusCode === 200) {
-                let data = res.data as SelectedIngredient[];
-                data = data.filter(el => !this.selectedIngredients.some(selected => selected.id === el.id));
-                this.ingredientsList = data;
-              } else if (res.data.length === 0) {
-                this.ingredientsList = [];
-              }
-            },
-            error: (error: any) => {
-              console.error('Error fetching ingredients:', error);
+
+  user: User | undefined;
+  searchInputFocused: boolean = false;
+
+  ingredientsList: SelectedIngredient[] = [];
+
+  selectedIngredients: SelectedIngredient[] = [];
+
+  ngOnInit(): void {
+    this.selectedIngredientsService.clearCart();
+    this.selectedIngredients = this.selectedIngredientsService.selectedIngredients;
+  }
+
+  getIngredients(): string[] {
+    let ingredients: string[] = [];
+    this.selectedIngredients.forEach(
+      x => ingredients.push(x.name)
+    );
+    return ingredients;
+  }
+
+
+  searchInputChange(): void {
+    if (this.title.length > 0) {
+
+      // Fetch ingredients matching the title
+      this.ingredientsService.getIngredientsByNameLike(this.title)
+        .subscribe({
+          next: (res: any) => {
+            if (res.statusCode === 200) {
+              let data = res.data as SelectedIngredient[];
+              data = data.filter(el => !this.selectedIngredients.some(selected => selected.id === el.id));
+              this.ingredientsList = data;
+            } else if (res.data.length === 0) {
               this.ingredientsList = [];
             }
-          });
-      } else {
-        this.ingredientsList = [];
-      }
+          },
+          error: (error: any) => {
+            console.error('Error fetching ingredients:', error);
+            this.ingredientsList = [];
+          }
+        });
+    } else {
+      this.ingredientsList = [];
     }
-  
-    searchInputBlur(){
-      setTimeout(() => this.searchInputFocused=false, 100);
-    }
-  
-    //IngredientsLogic
-    addIngredient(index:number){
-      this.selectedIngredientsService.addtoList(this.ingredientsList[index]);
-      this.title="";
-      this.ingredientsList.splice(index, 1);
-    }
-  
-    deleteIngredient(index:number){
-      this.selectedIngredientsService.removeSelectedIngredient(index);
-    }
+  }
 
-    searchRecipes(){
+  searchInputBlur() {
+    setTimeout(() => this.searchInputFocused = false, 100);
+  }
 
-    }
+  //IngredientsLogic
+  addIngredient(index: number) {
+    this.selectedIngredientsService.addtoList(this.ingredientsList[index]);
+    this.title = "";
+    this.ingredientsList.splice(index, 1);
+  }
+
+  deleteIngredient(index: number) {
+    this.selectedIngredientsService.removeSelectedIngredient(index);
+  }
+
+  searchRecipes() {
+    this.selectedIngredientsService.isFromEronDonDon = true;
+    this.router.navigate(['/catalog']);
+  }
 }

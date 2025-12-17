@@ -19,6 +19,15 @@ export class IngredientsService {
     );
   }
 
+  getMultipleByNames(names: string[]): Observable<SelectedIngredient[]> {
+    let params = new HttpParams();
+    names.forEach(n => {
+      params = params.append('name', n);
+    });
+
+    return this.http.get<SelectedIngredient[]>('http://localhost:5000/api/Ingredient/GetMultipleByName', { params });
+  }
+
   private handleError(error: HttpErrorResponse): Observable<any> {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
