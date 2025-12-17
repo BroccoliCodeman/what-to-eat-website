@@ -7,26 +7,33 @@ import { SelectedIngredient } from '../interfaces/selectedIngredient.interface';
   providedIn: 'root'
 })
 export class SelectedIngredientsService {
+  isFromEronDonDon:boolean = false;
 
-    selectedIngredients:SelectedIngredient[]=[];
+  selectedIngredients: SelectedIngredient[] = [];
 
   constructor(private http: HttpClient) {
 
-   }
+  }
 
-   getSelectedIngredients(){
+  getSelectedIngredients() {
     return this.selectedIngredients;
   }
 
-  addtoList(item : SelectedIngredient){
-      this.selectedIngredients.push(item);
+  addtoList(item: SelectedIngredient) {
+    this.selectedIngredients.push(item);
   }
 
-  removeSelectedIngredient(index:number){
+  addMultipleToList(items: SelectedIngredient[]) {
+    if (items && items.length > 0) {
+      this.selectedIngredients.push(...items);
+    }
+  }
+
+  removeSelectedIngredient(index: number) {
     this.selectedIngredients.splice(index, 1);
   }
 
-  clearCart(){
-    this.selectedIngredients=[];
+  clearCart() {
+    this.selectedIngredients = [];
   }
 }

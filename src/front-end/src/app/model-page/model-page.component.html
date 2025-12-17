@@ -1,73 +1,57 @@
 <app-header></app-header>
 <div class="file-upload-container">
-    <div class="drop-zone" (drop)="onFileDropped($event)" (dragover)="onDragOver($event)"
-        (dragleave)="onDragLeave($event)">
-        <p *ngIf="!filePreview">Перетяніть та дропніть сюди</p>
-        <img *ngIf="filePreview" [src]="filePreview" alt="Preview" class="preview-image" />
+    
+    <div class="loading-overlay" *ngIf="isUploading">
+        <mat-spinner diameter="50"></mat-spinner>
     </div>
 
-    <button (click)="fileInput.click()" class="upload-button">Вибрати фото</button>
-    <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;" />
+    <div [class.is-loading-blur]="isUploading" style="display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%;">
+        <div class="drop-zone" 
+             (drop)="onFileDropped($event)" 
+             (dragover)="onDragOver($event)"
+             (dragleave)="onDragLeave($event)">
+            <p *ngIf="!filePreview">Перетяніть та дропніть сюди</p>
+            <img *ngIf="filePreview" [src]="filePreview" alt="Preview" class="preview-image" />
+        </div>
+
+        <button (click)="fileInput.click()" class="upload-button">Вибрати фото</button>
+        <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;" />
+    </div>
 </div>
 
 <section>
   <article class="search">
     <form (ngSubmit)="searchRecipes()" #recipeForm="ngForm">
       <div class="form-group">
-        <div
-          *ngIf="selectedIngredients.length > 0"
-          style="display: flex; align-items: center; flex-wrap: wrap; gap: 10px"
-        >
+        <div *ngIf="selectedIngredients.length > 0"
+          style="display: flex; align-items: center; flex-wrap: wrap; gap: 10px">
           <label>Вибрані Інгредієнти: </label>
-          <div
-            *ngFor="
+          <div *ngFor="
               let selectedIngredient of selectedIngredients;
               let i = index
-            "
-            style="display: flex"
-          >
+            " style="display: flex">
             <label class="selectedIngredient-div">{{
               selectedIngredient.name
-            }}</label>
-            <button
-              class="selectedIngredient-btn"
-              (click)="deleteIngredient(i)"
-            >
+              }}</label>
+            <button class="selectedIngredient-btn" (click)="deleteIngredient(i)">
               X
             </button>
           </div>
         </div>
 
         <div class="search-container">
-          <input
-            type="text"
-            class="search-input"
-            id="title"
-            name="title"
-            [(ngModel)]="title"
-            placeholder="Введіть назву інгредієнту"
-            (input)="searchInputChange()"
-            (focus)="searchInputFocused = true"
-            (blur)="searchInputBlur()"
-          />
-          <button type="submit" class="search-button">Знайти рецепти</button>
+          <input type="text" class="search-input" id="title" name="title" [(ngModel)]="title"
+            placeholder="Введіть назву інгредієнту" (input)="searchInputChange()" (focus)="searchInputFocused = true"
+            (blur)="searchInputBlur()" />
+          <button type="submit" (click)="searchRecipes()" class="search-button">Знайти рецепти</button>
         </div>
 
         <div>
-          <ul
-            *ngIf="searchInputFocused == true"
-            style="position: absolute; list-style-type: none"
-          >
-            <li
-              class="search-li"
-              *ngFor="let ingredient of ingredientsList; let i = index"
-              (mousedown)="addIngredient(i)"
-            >
-              <img
-                src="../../assets/images/ingredient-icon.png"
-                style="height: auto; width: 28px; margin-right: 5px"
-                alt="recipe-photo"
-              />
+          <ul *ngIf="searchInputFocused == true" style="position: absolute; list-style-type: none">
+            <li class="search-li" *ngFor="let ingredient of ingredientsList; let i = index"
+              (mousedown)="addIngredient(i)">
+              <img src="../../assets/images/ingredient-icon.png" style="height: auto; width: 28px; margin-right: 5px"
+                alt="recipe-photo" />
               {{ ingredient.name }}
               <h6 style="margin-left: 2px">- Інгредієнт</h6>
             </li>

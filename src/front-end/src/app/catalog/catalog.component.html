@@ -121,7 +121,7 @@
       <div class="user-container">
         <div class="avatar">
           <img
-            [src]="recipe.user.avatar || '../../assets/images/default_user.jpg'"
+            [src]="recipe?.user?.avatar || '../../assets/images/default_user.jpg'"
             (error)="onImageError($event)"
             alt="Avatar"
             class="avatar"
