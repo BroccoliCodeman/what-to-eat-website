@@ -1,4 +1,4 @@
 export interface SelectedIngredient{
     id:string,
-    name:string
+    name?:string
 }

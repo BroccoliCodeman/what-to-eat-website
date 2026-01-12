@@ -1,3 +1,3 @@
 export interface WeightUnit{
-    type:string
+    type?:string
 }

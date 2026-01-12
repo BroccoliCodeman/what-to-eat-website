@@ -9,6 +9,7 @@ import { RecipeShort } from '../interfaces/recipeShort.interface';
 import { IngredientsService } from '../services/ingredients.service';
 import { SelectedIngredientsService } from '../services/selectedIngredients.service';
 import { delay } from 'rxjs';
+
 @Component({
   selector: 'app-catalog',
   templateUrl: './catalog.component.html',
@@ -63,8 +64,29 @@ export class CatalogComponent {
     }
   }
 
-  onImageError(event: any) {
+  // Виправлена обробка помилок для аватарів
+  onAvatarError(event: any, recipe: Recipe) {
+    console.log('Avatar loading error for recipe:', recipe?.id || 'unknown');
     event.target.src = 'assets/images/default_user.jpg';
+  }
+
+  // Додана обробка помилок для фото рецептів  
+  onRecipeImageError(event: any, recipe: Recipe) {
+    console.log('Recipe image loading error for recipe:', recipe.id);
+    event.target.src = 'assets/images/default_recipe.jpg';
+  }
+
+  // Допоміжний метод для отримання URL фото з обробкою помилок
+  getRecipePhotoUrl(recipe: Recipe): string {
+    return recipe.photo || 'assets/images/default_recipe.jpg';
+  }
+
+  // Допоміжний метод для отримання URL аватару з обробкою помилок
+  getAvatarUrl(recipe: Recipe): string {
+    if (recipe && recipe.user && recipe.user.avatar) {
+      return recipe.user.avatar;
+    }
+    return 'assets/images/default_user.jpg';
   }
 
   searchRecipes(): void {
@@ -97,7 +119,7 @@ export class CatalogComponent {
   getIngredients(): string[] {
     let ingredients: string[] = [];
     this.selectedIngredients.forEach(
-      x => ingredients.push(x.name)
+      x => ingredients.push(x!.name!)
     );
     return ingredients;
   }
@@ -149,7 +171,6 @@ export class CatalogComponent {
             };
           } else {
             console.error('Error:', error);
-            // Handle other types of errors as needed.
           }
         }
       });
@@ -168,7 +189,6 @@ export class CatalogComponent {
 
   searchInputChange(): void {
     if (this.title.length > 0) {
-      // Fetch recipes matching the title
       this.recipeService.getRecipesByNameLike(this.title)
         .subscribe({
           next: (res: any) => {
@@ -184,7 +204,6 @@ export class CatalogComponent {
           }
         });
 
-      // Fetch ingredients matching the title
       this.ingredientsService.getIngredientsByNameLike(this.title)
         .subscribe({
           next: (res: any) => {
@@ -211,7 +230,6 @@ export class CatalogComponent {
     setTimeout(() => this.searchInputFocused = false, 100);
   }
 
-  //sorting
   getSortType(): number {
     let result = this.sortOptions.indexOf(this.selectedSortOption);
     if (result >= 0) {
@@ -221,7 +239,6 @@ export class CatalogComponent {
     }
   }
 
-  //IngredientsLogic
   addIngredient(index: number) {
     this.selectedIngredientsService.addtoList(this.ingredientsList[index]);
     this.title = "";

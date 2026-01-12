@@ -84,7 +84,7 @@ export class ModelPageComponent {
     if (this.selectedFile) {
       this.modelService.uploadImage(this.selectedFile).subscribe({
         next: (res: PredictionResponse) => {
-          const predictions: string[] = res.results.map(r => r.prediction);
+          const predictions: string[] = res.results?.map(r => r.prediction).filter((p): p is string => p !== undefined) ?? [];
 
           this.ingredientsService.getMultipleByNames(predictions).subscribe({
             next: (response: any) => { // Change type to 'any' to handle the wrapper
@@ -137,7 +137,7 @@ export class ModelPageComponent {
   getIngredients(): string[] {
     let ingredients: string[] = [];
     this.selectedIngredients.forEach(
-      x => ingredients.push(x.name)
+      x => ingredients.push(x!.name!)
     );
     return ingredients;
   }

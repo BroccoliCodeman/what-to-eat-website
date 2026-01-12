@@ -109,28 +109,46 @@
 
   <div
     class="card"
-    *ngFor="let recipe of recipes"
+    *ngFor="let recipe of recipes; let idx = index"
     (click)="goToRecipePage(recipe.id)"
   >
-    <div
+    <img
       class="card-img-top"
-      [style.backgroundImage]="'url(' + recipe.photo + ')'"
-    ></div>
+      [src]="getRecipePhotoUrl(recipe)"
+      (error)="onRecipeImageError($event, recipe)"
+      [alt]="'Recipe-' + recipe.id"
+    />
     <div class="card-body">
       <h5 class="card-title">{{ recipe.title }}</h5>
-      <div class="user-container">
+      <div class="user-container" *ngIf="recipe.user">
         <div class="avatar">
           <img
-            [src]="recipe?.user?.avatar || '../../assets/images/default_user.jpg'"
-            (error)="onImageError($event)"
-            alt="Avatar"
+            [src]="getAvatarUrl(recipe)"
+            (error)="onAvatarError($event, recipe)"
+            [alt]="'Avatar-' + recipe.id + '-' + idx"
             class="avatar"
           />
         </div>
         <div class="sub-user-container">
           <p class="username">
-            {{ recipe.user.firstName }} {{ recipe.user.lastName }}
+            {{ recipe.user.firstName || 'Невідомий' }} {{ recipe.user.lastName }}
           </p>
+          <p class="date">
+            <i class="fas fa-calendar-alt" style="font-size: 1.4rem"></i>
+            {{ recipe.creationDate | date }}
+          </p>
+        </div>
+      </div>
+      <div class="user-container" *ngIf="!recipe.user">
+        <div class="avatar">
+          <img
+            src="assets/images/default_user.jpg"
+            alt="Default Avatar"
+            class="avatar"
+          />
+        </div>
+        <div class="sub-user-container">
+          <p class="username">Невідомий автор</p>
           <p class="date">
             <i class="fas fa-calendar-alt" style="font-size: 1.4rem"></i>
             {{ recipe.creationDate | date }}
@@ -147,7 +165,7 @@
       class="previous"
       [disabled]="!pagination.HasPrevious"
       (click)="loadPreviousPage(); scrollToTop()"
-    ></button>
+    >‹</button>
     <ng-container *ngFor="let page of getPageNumbers()">
       <button
         class="pageNumbers"
@@ -163,7 +181,7 @@
       [disabled]="!pagination.HasNext"
       (click)="loadNextPage(); scrollToTop()"
     >
-      —>
+      ›
     </button>
   </div>
 </div>

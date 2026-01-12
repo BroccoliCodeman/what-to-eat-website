@@ -1,6 +1,6 @@
 export interface CookingStep{
     id:string,
-    description:string,
-    order:number,
-    recipeId:string
+    description?:string,
+    order?:number,
+    recipeId?:string
 }
