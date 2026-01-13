@@ -1,348 +1,151 @@
-html,
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
+/* --- Глобальні налаштування --- */
+html, body { height: 100%; margin: 0; padding: 0; }
 
 .page-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #f5f5dc;
-  z-index: -1;
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: #f5f5dc; z-index: -1;
 }
 
 .container {
-  position: relative;
-  z-index: 0;
-  padding: 20px;
-  width: 80%;
-  margin: 10px auto;
+  position: relative; padding: 20px; width: 80%; margin: 10px auto;
+  font-family: "Montserrat", sans-serif;
 }
 
-h1 {
-  font-size: 2em;
-  margin-bottom: 10px;
-}
+/* --- Текст та Заголовки --- */
+h1 { font-size: 2em; margin-bottom: 10px; }
+h2 { text-align: center; margin-bottom: 20px; }
+hr { width: 50%; min-width: 150px; margin: 0 auto; border: 3px solid #004225; }
 
-h2 {
-  text-align: center;
-}
-
+/* --- Банер та Навігація --- */
 .banner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  margin-bottom: 20px;
+  display: flex; justify-content: center; align-items: center;
+  position: relative; margin-bottom: 20px;
 }
+.banner div { position: absolute; left: 0; }
+.banner a { text-decoration: none; color: #004225; }
+.goBack { font-size: 2rem; }
 
-.banner div {
-  position: absolute;
-  left: 0;
+/* --- Основна сітка (Layout) --- */
+.firstLayer-container, .secondLayer-container {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-bottom: 20px;
 }
+.secondLayer-container { grid-template-areas: "reviews cooking-steps"; }
 
-.banner h1 {
-  margin: 0;
-}
+/* --- Фото та Опис --- */
+.photo-container { display: flex; flex-direction: column; }
+.photo { max-width: 500px; width: 100%; height: auto; margin-bottom: 20px; align-self: center;}
+.description { font-style: italic; text-align: center; max-width: 60%; margin: 20px auto; }
 
-.banner a {
-  text-decoration: none;
-  color: #004225;
-}
-
-.goBack {
-  font-size: 2rem;
-}
-
-@media (max-width: 700px) {
-  .banner {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .banner div {
-    position: static;
-    margin-bottom: 10px;
-  }
-
-  .banner h1 {
-    text-align: left;
-  }
-
-  .goBack {
-    font-size: 1.5rem;
-  }
-}
-
-.calories {
-  margin-top: 50px;
-  font-size: 2rem;
-  font-family: "Courier New", Courier, monospace;
-  font-weight: 700;
-  border: 3px solid #004225;
-  border-radius: 40%;
-  padding: 10px;
-  text-align: center;
-}
-
-.cookingTime {
-  font-size: 1.5rem;
-  text-align: right;
-  margin-top: 10px;
-  font-weight: 700;
-  font-style: italic;
-  text-decoration: underline;
-}
-
-.postUser {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 500px;
-}
-
-.user-block {
-  display: flex;
-  align-items: center;
-}
-
+/* --- Користувач та Кнопки --- */
+.postUser { display: flex; align-items: center; justify-content: space-between; max-width: 500px; align-self: center; width: 100%; }
+.user-block { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+.user-image { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
 .buttonSaveRecipe {
+  border: none; background: #ffb000; border-radius: 50%;
+  cursor: pointer; padding: 10px; transition: transform 0.2s;
+}
+.buttonSaveRecipe:disabled { cursor: not-allowed; opacity: 0.7; }
+.saveRecipe { font-size: 1.2rem; color: white; }
+
+/* --- Інгредієнти та Кроки --- */
+.ingredients ul, .cooking-steps ol { margin: 0; padding-left: 20px; }
+.ingredients li { display: flex; justify-content: space-between; margin-bottom: 5px; border-bottom: 1px dotted #ccc; }
+.ingredient-name { font-weight: 700; text-transform: capitalize; }
+.cooking-steps li { margin-bottom: 1.2rem; font-weight: 600; }
+
+/* --- Інфо (Калорії, Час) --- */
+.calories {
+  margin-top: 30px; font-size: 1.5rem; font-family: "Courier New", monospace;
+  font-weight: 700; border: 3px solid #004225; border-radius: 20px;
+  padding: 10px; text-align: center;
+}
+.cookingTime { font-size: 1.2rem; text-align: right; margin-top: 10px; font-weight: 700; text-decoration: underline; font-style: italic; }
+
+/* --- Відгуки --- */
+.reviews-container { grid-area: reviews; display: flex; flex-direction: column; align-items: center; }
+.review-card {
+  background: white; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 20px; margin: 0 auto 20px auto; max-width: 400px; width: 100%;
+}
+.review-header { display: flex; align-items: center; margin-bottom: 10px; }
+.user-details { display: flex; justify-content: space-between; width: 100%; align-items: center; }
+.stars { color: #ffd700; font-size: 1.2em; }
+.noReviews { margin-top: 20px; font-style: italic; text-align: center; }
+
+/* --- Пагінація --- */
+.pagination-controls { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
+.pagination-btn {
+  background: #004225; color: white; border: none; width: 35px; height: 35px;
+  border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex;
+  align-items: center; justify-content: center; transition: 0.3s;
+}
+.pagination-btn:hover:not([disabled]) { background: #ffb000; transform: scale(1.1); }
+.pagination-btn[disabled] { background: #ccc; cursor: not-allowed; }
+.page-info { font-weight: 600; color: #004225; align-self: center; }
+
+/* =========================================
+   ОБ'ЄДНАНІ МЕДІА-ЗАПИТИ (Tablet & Mobile)
+   ========================================= */
+
+/* Основна адаптація: Планшети і менше (до 850px) */
+@media (max-width: 850px) {
+  /* Перебудова колонок в одну */
+  .firstLayer-container, .secondLayer-container { grid-template-columns: 1fr; gap: 2rem; }
+  
+  /* Зміна порядку блоків: кроки зверху, відгуки знизу */
+  .secondLayer-container { grid-template-areas: "cooking-steps" "reviews"; }
+  
+  /* Адаптація банера */
+  .banner { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .banner div { position: static; }
+  .banner h1 { text-align: left; font-size: 1.5rem; }
+  
+  /* Центрування та ширина */
+  .reviews-container { width: 100%; }
+  .photo-container { align-items: center; }
+  .description { max-width: 90%; }
+  .goBack { font-size: 1.5rem; }
+}
+
+/* Мобільні телефони (до 500px) - дрібні правки */
+@media (max-width: 500px) {
+  .container { width: 95%; padding: 10px; }
+  .ingredients li { flex-direction: column; align-items: flex-start; border-top: 1px solid #004225; border-bottom: 1px solid #004225; padding: 5px 0; }
+  .review-card { max-width: 100%; }
+  .stars { font-size: 1em; }
+}
+
+/* Додайте це до існуючих стилів кнопок */
+
+.buttonEditRecipe {
   border: none;
-  background: #ffb000;
+  background: #004225; /* Темно-зелений колір */
   border-radius: 50%;
   cursor: pointer;
-  justify-content: flex-end;
+  padding: 10px;
+  margin-left: 10px; /* Відступ від кнопки збереження */
+  transition: transform 0.2s, background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px; /* Фіксований розмір, як у кнопки збереження */
+  height: 45px;
 }
 
-.buttonSaveRecipe[disabled] {
-  cursor: not-allowed;
-}
-
-.buttonSaveRecipe[disabled] .saveRecipe:hover {
-  color: white;
-}
-
-.saveRecipe {
+.buttonEditRecipe i {
   font-size: 1.2rem;
   color: white;
-  padding: 10px 15px;
 }
 
-.saveRecipe:hover {
-  color: black;
+.buttonEditRecipe:hover {
+  transform: scale(1.1);
+  background: #005c35; /* Світліший зелений при наведенні */
 }
 
-.firstLayer-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: 2.5rem;
-  margin-bottom: 20px;
-}
-
-.photo {
-  max-width: 500px;
-  height: auto;
-  margin-bottom: 20px;
-}
-
-.description {
-  font-style: italic;
-  text-align: center;
-  max-width: 50%;
-  margin: 20px auto;
-}
-
-.ingredients,
-.cooking-steps,
-.review {
-  margin-bottom: 20px;
-}
-
-.ingredients ul,
-.cooking-steps ol {
-  margin: 0;
-  padding: 0 0 0 20px;
-}
-
-.ingredients li {
-  margin-bottom: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.ingredient-name {
-  margin-right: 10px;
-  font-weight: 700;
-  text-transform: capitalize;
-}
-
-.ingredients li {
-  margin-bottom: 5px;
-}
-
-.cooking-steps ol li {
-  margin-bottom: 1.2rem;
-  font-weight: 600;
-}
-
-hr {
-  width: 50%;
-  min-width: 150px;
-  margin: 0 auto;
-  border: 3px solid #004225;
-}
-
-.secondLayer-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: 3rem;
-  grid-template-areas: "reviews cooking-steps";
-}
-
-.cooking-steps {
-  grid-area: cooking-steps;
-}
-
-.reviews-container {
-  margin-right: 20px;
-  grid-area: reviews;
-}
-
-.review-card {
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin-bottom: 20px;
-  max-width: 400px;
-  width: 100%;
-  font-family: Arial, sans-serif;
-  font-size: 1.2rem;
-}
-
-.review-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.user-image {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 15px;
-}
-
-.user-details {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.user-name {
-  font-size: 1.2em;
-  margin-right: 10px;
-}
-
-.stars {
-  color: #ffd700;
-  font-size: 1.5em;
-}
-
-.review-text {
-  font-size: 1rem;
-  color: #333;
-}
-
-.noReviews {
-  margin-top: 20px;
-  font-style: italic;
-  text-align: center;
-  font-size: 1.3rem;
-}
-
-@media (max-width: 800px) {
-  .firstLayer-container {
-    grid-template-columns: 1fr;
-    grid-row-gap: 2.5rem;
-  }
-
-  .secondLayer-container {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "cooking-steps"
-      "reviews";
-  }
-
-  .reviews-container {
-    grid-column-end: 1;
-    margin: 0 auto;
-  }
-
-  .photo-container {
-    text-align: center;
-  }
-
-  .description {
-    max-width: 80%;
-  }
-
-  .review {
-    order: 2;
-  }
-
-  .cooking-steps {
-    order: 1;
-  }
-}
-
+/* Адаптивність для мобільних (якщо треба) */
 @media (max-width: 500px) {
-  .description {
-    max-width: 90%;
-    font-size: 1em;
-  }
-
-  .ingredients,
-  .cooking-steps {
-    margin-bottom: 15px;
-  }
-
-  .ingredients li,
-  .cooking-steps li {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .ingredient-name,
-  .ingredient-quantity {
-    margin-bottom: 5px;
-  }
-
-  .ingredients li {
-    align-items: center;
-    border-top: 1px solid #004225;
-    border-bottom: 1px solid #004225;
-  }
-
-  .photo {
-    max-width: 100%;
-  }
-
-  .review-card {
-    max-width: 250px;
-  }
-
-  .user-name {
-    font-size: 1.1rem;
-  }
-
-  .stars {
-    font-size: 1.2em;
+  .buttonEditRecipe {
+    width: 40px;
+    height: 40px;
   }
 }

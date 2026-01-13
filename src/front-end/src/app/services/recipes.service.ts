@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
 import { Recipe } from '../interfaces/recipe.interface';
 import { RecipeShort } from '../interfaces/recipeShort.interface';
+import { RecipeDto as RecipeDto } from '../interfaces/recipe-create.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +42,16 @@ export class RecipesService {
       `http://localhost:5000/api/Recipe/${string}`
     );
   }
+// Новий метод для створення рецепту
+  createRecipe(recipe: RecipeDto): Observable<any> {
+    return this.http.post(`http://localhost:5000/api/Recipe/PostWithIngredientsAndCookingSteps`, recipe);
+  }
 
+  updateRecipe(id: string, recipe: RecipeDto): Observable<any> {
+  // Припускаємо, що на бекенді буде PUT endpoint: api/Recipe/{id}
+  // Або POST, залежно від твоєї реалізації
+  return this.http.put(`http://localhost:5000/api/Recipe/${id}`, recipe);
+}
   private handleError(error: HttpErrorResponse): Observable<any> {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

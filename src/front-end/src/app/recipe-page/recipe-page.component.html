@@ -17,21 +17,40 @@
       <img [src]="recipe.photo" alt="Recipe Photo" class="photo" />
       <div class="postUser">
         <div class="user-block">
-          <img [src]="recipe.user?.avatar" alt="User Image" class="user-image" />
+          <img
+            [src]="recipe.user?.avatar || 'assets/images/default_user.jpg'"
+            alt="User Image"
+            class="user-image"
+          />
           {{ recipe.user?.firstName }} {{ recipe.user?.lastName }}
         </div>
         <p class="date">
           <i class="fas fa-calendar-alt" style="font-size: 1.4rem"></i>
           {{ recipe.creationDate | date }}
         </p>
-        <button
-          *ngIf="user"
-          [disabled]="isNotSaved"
-          class="buttonSaveRecipe"
-          (click)="saveRecipe()"
-        >
-          <i class="saveRecipe fa-regular fa-bookmark"></i>
-        </button>
+        
+        <div style="display: flex; align-items: center;">
+          
+          <button
+            *ngIf="user"
+            [disabled]="isNotSaved"
+            class="buttonSaveRecipe"
+            (click)="saveRecipe()"
+            title="Зберегти в закладки"
+          >
+            <i class="saveRecipe fa-regular fa-bookmark"></i>
+          </button>
+
+          <button
+            *ngIf="user && recipe.user && user.id === recipe.user.id"
+            class="buttonEditRecipe"
+            [routerLink]="['/recipe-update', recipe.id]"
+            title="Редагувати рецепт"
+          >
+            <i class="fas fa-pen"></i>
+          </button>
+
+        </div>
       </div>
     </div>
     <div class="ingredients">
@@ -45,7 +64,8 @@
         <li *ngFor="let ingredient of recipe.ingredients">
           <span class="ingredient-name">{{ ingredient.name }}</span>
           <span class="ingredient-quantity"
-            >{{ ingredient.quantity }} {{ ingredient.weightUnit?.type || '' }}</span
+            >{{ ingredient.quantity }}
+            {{ ingredient.weightUnit?.type || "" }}</span
           >
         </li>
       </ul>
@@ -62,12 +82,14 @@
       <h2>Відгуки</h2>
       <hr />
       <br />
-      <div *ngIf="recipe.responds!.length > 0; else noReviews">
-        <div class="review-card" *ngFor="let respond of recipe.responds">
+      <div
+        *ngIf="recipe.responds && recipe.responds.length > 0; else noReviews"
+      >
+        <div class="review-card" *ngFor="let respond of paginatedReviews">
           <div class="review-header">
             <div>
               <img
-                [src]="respond.user?.avatar"
+                [src]="respond.user?.avatar || 'assets/images/default_user.jpg'"
                 alt="User Image"
                 class="user-image"
               />
@@ -81,6 +103,26 @@
             </div>
           </div>
           <p class="review-text">{{ respond.text }}</p>
+        </div>
+
+        <div class="pagination-controls" *ngIf="totalPages > 1">
+          <button
+            class="pagination-btn prev"
+            (click)="prevPage()"
+            [disabled]="currentPage === 1"
+          >
+            ‹
+          </button>
+
+          <span class="page-info"> {{ currentPage }} / {{ totalPages }} </span>
+
+          <button
+            class="pagination-btn next"
+            (click)="nextPage()"
+            [disabled]="currentPage === totalPages"
+          >
+            ›
+          </button>
         </div>
       </div>
       <ng-template #noReviews>

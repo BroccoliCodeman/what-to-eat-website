@@ -29,6 +29,7 @@ import { ModelPageComponent } from './model-page/model-page.component';
 import { ModelService } from './services/model.service';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { CloudinaryService } from './services/cloudinary.service';
+import { RecipeUpdateComponent } from './recipe-update/recipe-update.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { CloudinaryService } from './services/cloudinary.service';
     UserPageComponent,
     RecipePageComponent,
     CatalogComponent,
-    ModelPageComponent
+    ModelPageComponent,
+    RecipeUpdateComponent
   ],
   imports: [
     RouterModule.forRoot([
@@ -58,6 +60,7 @@ import { CloudinaryService } from './services/cloudinary.service';
       { path: 'catalog', component: CatalogComponent },
       { path: 'catalog/:title', component: CatalogComponent },
       { path: 'modelpage', component: ModelPageComponent },
+      { path: 'recipe-update/:id', component: RecipeUpdateComponent },
     ]),
     BrowserModule,
     ReactiveFormsModule,
