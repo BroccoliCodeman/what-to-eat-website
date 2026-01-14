@@ -138,19 +138,80 @@ export class CatalogComponent {
     }
   }
 
-  getPageNumbers(): number[] {
-    const totalPages = this.pagination.TotalPages;
-    const currentPage = this.pagination.CurrentPage;
-    const pageNumbers: number[] = [];
+getPaginationList(): (number | string)[] {
+  if (!this.pagination) return [];
+  
+  const totalPages = this.pagination.TotalPages;
+  const currentPage = this.pagination.CurrentPage;
 
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(i);
-    }
-
-    return pageNumbers;
+  // Якщо сторінок мало (до 7), показуємо всі
+  if (totalPages <= 7) {
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
   }
 
-  loadRecipesForPage(page: number): void {
+  const pages: (number | string)[] = [];
+
+  // Завжди додаємо першу сторінку
+  pages.push(1);
+
+  // Якщо ми далеко від початку (наприклад, на 5-й сторінці), додаємо "..."
+  if (currentPage > 4) {
+    pages.push('...');
+  }
+
+  // Визначаємо діапазон сусідніх сторінок
+  let start = Math.max(2, currentPage - 1);
+  let end = Math.min(totalPages - 1, currentPage + 1);
+
+  // Якщо ми на початку (сторінки 1, 2, 3, 4), показуємо перші 5
+  if (currentPage <= 4) {
+    end = 5;
+    start = 2;
+  }
+
+  // Якщо ми в кінці, показуємо останні 5
+  if (currentPage >= totalPages - 3) {
+    start = totalPages - 4;
+    end = totalPages - 1;
+  }
+
+  // Заповнюємо середину
+  for (let i = start; i <= end; i++) {
+    pages.push(i);
+  }
+
+  // Якщо ми далеко від кінця, додаємо "..."
+  if (currentPage < totalPages - 3) {
+    pages.push('...');
+  }
+
+  // Завжди додаємо останню сторінку
+  pages.push(totalPages);
+
+  return pages;
+}
+
+// 2. Додайте методи для переходу на початок і кінець:
+loadFirstPage(): void {
+  if (this.pagination && this.pagination.CurrentPage !== 1) {
+    this.loadRecipesForPage(1);
+    this.scrollToTop();
+  }
+}
+
+loadLastPage(): void {
+  if (this.pagination && this.pagination.CurrentPage !== this.pagination.TotalPages) {
+    this.loadRecipesForPage(this.pagination.TotalPages);
+    this.scrollToTop();
+  }
+}
+
+  // Змініть тип аргументу на (number | string)
+  loadRecipesForPage(page: number | string): void {
+    
+    // Додайте перевірку: якщо це рядок (наприклад, "..."), нічого не робимо
+    if (typeof page !== 'number') return;
+
     this.recipeService.getRecipes(this.title, this.getIngredients(), page, this.getSortType())
       .subscribe({
         next: (response: HttpResponse<any>) => {

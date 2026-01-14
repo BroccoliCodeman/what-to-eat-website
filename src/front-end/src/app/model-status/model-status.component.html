@@ -1,0 +1,83 @@
+<div class="page-background"></div>
+<app-header></app-header>
+
+<div class="status-container">
+  
+  <div class="header-section">
+    <h1>СТАТУС СИСТЕМИ</h1>
+    <p class="subtitle">Моніторинг стану штучного інтелекту та даних</p>
+    
+    <button class="refresh-btn" (click)="loadStatus()" [disabled]="isLoading">
+      <i class="fas fa-sync-alt" [class.spin]="isLoading"></i> Оновити
+    </button>
+  </div>
+
+  <div *ngIf="isLoading && !statusData" class="loading-state">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>З'єднання з сервером...</p>
+  </div>
+
+  <div *ngIf="statusData" class="dashboard-grid">
+    
+    <div class="stat-card main-status">
+      <div class="icon-wrapper">
+        <i class="fas fa-server"></i>
+      </div>
+      <div class="stat-info">
+        <h3>Статус Сервера</h3>
+        <div class="status-indicator">
+          <span class="dot"></span>
+          <span class="status-text">{{ statusData.status | uppercase }}</span>
+        </div>
+        <span class="sub-text">Оновлено: {{ lastUpdated | date:'HH:mm:ss' }}</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="icon-wrapper orange">
+        <i class="fas fa-code-branch"></i>
+      </div>
+      <div class="stat-info">
+        <h3>Версія Моделі</h3>
+        <p class="big-number">{{ statusData.model_version }}</p>
+        <span class="sub-text">Пристрій: {{ statusData.device | uppercase }}</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="icon-wrapper blue">
+        <i class="fas fa-search-plus"></i>
+      </div>
+      <div class="stat-info">
+        <h3>Uncertain Pool</h3>
+        <p class="big-number">{{ statusData.uncertain_count }}</p>
+        <span class="sub-text">Потребують перевірки</span>
+        <a routerLink="/active-learning" class="card-link">Перейти до розмітки →</a>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="icon-wrapper green">
+        <i class="fas fa-check-double"></i>
+      </div>
+      <div class="stat-info">
+        <h3>Готові до навчання</h3>
+        <p class="big-number">{{ statusData.labeled_count }}</p>
+        <span class="sub-text">Нових зображень</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="icon-wrapper purple">
+        <i class="fas fa-utensils"></i>
+      </div>
+      <div class="stat-info">
+        <h3>Всього Класів</h3>
+        <p class="big-number">{{ statusData.total_classes }}</p>
+        <span class="sub-text">Страв у базі знань</span>
+      </div>
+    </div>
+
+  </div>
+
+</div>

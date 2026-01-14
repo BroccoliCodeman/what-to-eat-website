@@ -1,0 +1,90 @@
+<div class="page-background"></div>
+<app-header></app-header>
+
+<div class="al-wrapper">
+  
+  <div class="al-main">
+    <div class="al-header">
+      <h1>ACTIVE LEARNING</h1>
+      <p class="subtitle">Навчайте модель на складних прикладах.</p>
+      
+      <div class="controls">
+        <button class="refresh-btn" (click)="loadPool()" [disabled]="isLoading">
+          <i class="fas fa-sync-alt"></i> Оновити
+        </button>
+        <button class="retrain-btn" (click)="triggerRetrain()" [disabled]="isRetraining">
+          <i class="fas fa-brain"></i> {{ isRetraining ? 'Навчання...' : 'Донавчати' }}
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="isLoading" class="loading">
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+
+    <div *ngIf="!isLoading && poolItems.length === 0" class="empty-state">
+      <h3>Список порожній</h3>
+    </div>
+
+    <div class="image-grid" *ngIf="!isLoading && poolItems.length > 0">
+    <div class="img-card" *ngFor="let item of poolItems" 
+           [class.is-active-card]="openDropdownId === item.id">
+        
+        <button class="skip-btn" (click)="skipItem(item, $event)" title="Пропустити">
+          <i class="fas fa-times"></i>
+        </button>
+
+        <div class="img-wrapper">
+          <img [src]="getImgUrl(item.url)" alt="Uncertain Image">
+        </div>
+        
+        <div class="card-actions" (click)="$event.stopPropagation()">
+          <label>Це схоже на:</label>
+          <div class="search-select-wrapper">
+            <input 
+              type="text" 
+              class="search-input"
+              placeholder="Вибрати клас..." 
+              [value]="openDropdownId === item.id ? searchTerm : ''"
+              (focus)="openDropdown(item, $event)"
+              (input)="onSearchChange($any($event.target).value)"
+            >
+            <i class="fas fa-search search-icon"></i>
+
+            <ul class="dropdown-list" *ngIf="openDropdownId === item.id">
+              <li *ngFor="let cls of filteredClasses" (click)="selectClass(item, cls)">
+                {{ cls }}
+              </li>
+              <li *ngIf="filteredClasses.length === 0" class="no-results">
+                ---
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="al-sidebar">
+    <h3>Історія розмітки ({{ labeledHistory.length }})</h3>
+    <div class="history-list">
+      
+      <div class="history-item" *ngFor="let entry of labeledHistory">
+        <div class="h-img">
+          <img [src]="getImgUrl(entry.poolItem.url)">
+        </div>
+        <div class="h-info">
+          <span class="h-label">{{ entry.label }}</span>
+          <span class="h-time">{{ entry.timestamp | date:'HH:mm:ss' }}</span>
+        </div>
+        <i class="fas fa-check-circle h-icon"></i>
+      </div>
+
+      <div *ngIf="labeledHistory.length === 0" class="no-history">
+        Поки що ви нічого не пролейблували.
+      </div>
+
+    </div>
+  </div>
+
+</div>

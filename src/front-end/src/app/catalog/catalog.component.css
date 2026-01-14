@@ -277,3 +277,109 @@ section {
   background-color: #949393;
   cursor: pointer;
 }
+/* catalog.component.css */
+
+/* ... (інші стилі залишаються) */
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Відступ між кнопками */
+  background: white;
+  padding: 10px 20px;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+/* Стиль для звичайних кнопок навігації (стрілочки) */
+.nav-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #004225;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+  line-height: 1;
+  padding-bottom: 5px; /* Корекція центрування символу */
+}
+
+.nav-btn:hover:not([disabled]) {
+  background-color: #f0f7f2;
+  transform: scale(1.1);
+}
+
+.nav-btn[disabled] {
+  color: #ccc;
+  cursor: default;
+}
+
+/* Стиль для номерів сторінок */
+.pageNumbers {
+  background: none;
+  border: none;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #505050;
+  cursor: pointer;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.pageNumbers:hover:not(.current) {
+  background-color: #f0f7f2;
+  color: #004225;
+}
+
+/* Активна сторінка */
+.pageNumbers.current {
+  background-color: #ffb000;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(255, 176, 0, 0.4);
+  cursor: default;
+}
+
+/* Стиль для трьох крапок (...) */
+.dots {
+  color: #888;
+  font-weight: bold;
+  padding: 0 5px;
+  user-select: none;
+}
+
+/* Адаптивність для пагінації */
+@media (max-width: 500px) {
+  .pagination {
+    padding: 5px 10px;
+    gap: 2px;
+  }
+  
+  .nav-btn, .pageNumbers {
+    width: 30px;
+    height: 30px;
+    font-size: 0.9rem;
+  }
+
+  .nav-btn {
+    font-size: 1.2rem; /* Стрілочки трохи більші */
+  }
+}

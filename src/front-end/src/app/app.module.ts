@@ -30,6 +30,8 @@ import { ModelService } from './services/model.service';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { CloudinaryService } from './services/cloudinary.service';
 import { RecipeUpdateComponent } from './recipe-update/recipe-update.component';
+import { ActiveLearningComponent } from './active-learning/active-learning.component';
+import { ModelStatusComponent } from './model-status/model-status.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import { RecipeUpdateComponent } from './recipe-update/recipe-update.component';
     RecipePageComponent,
     CatalogComponent,
     ModelPageComponent,
-    RecipeUpdateComponent
+    RecipeUpdateComponent,
+    ActiveLearningComponent,
+    ModelStatusComponent
   ],
   imports: [
     RouterModule.forRoot([
@@ -61,6 +65,8 @@ import { RecipeUpdateComponent } from './recipe-update/recipe-update.component';
       { path: 'catalog/:title', component: CatalogComponent },
       { path: 'modelpage', component: ModelPageComponent },
       { path: 'recipe-update/:id', component: RecipeUpdateComponent },
+      { path: 'active-learning', component: ActiveLearningComponent },
+      { path: 'model-status', component: ModelStatusComponent },
     ]),
     BrowserModule,
     ReactiveFormsModule,

@@ -161,13 +161,29 @@
 
 <div class="pagination-container">
   <div class="pagination" *ngIf="pagination">
+    
+    <button 
+      class="nav-btn first" 
+      [disabled]="pagination.CurrentPage === 1" 
+      (click)="loadFirstPage()"
+      title="На першу сторінку"
+    >
+      «
+    </button>
+
     <button
-      class="previous"
+      class="nav-btn previous"
       [disabled]="!pagination.HasPrevious"
       (click)="loadPreviousPage(); scrollToTop()"
-    >‹</button>
-    <ng-container *ngFor="let page of getPageNumbers()">
+      title="Попередня"
+    >
+      ‹
+    </button>
+
+    <ng-container *ngFor="let page of getPaginationList()">
+      
       <button
+        *ngIf="page !== '...'"
         class="pageNumbers"
         [disabled]="pagination.CurrentPage === page"
         [class.current]="pagination.CurrentPage === page"
@@ -175,13 +191,28 @@
       >
         {{ page }}
       </button>
+
+      <span *ngIf="page === '...'" class="dots">...</span>
+      
     </ng-container>
+
     <button
-      class="next"
+      class="nav-btn next"
       [disabled]="!pagination.HasNext"
       (click)="loadNextPage(); scrollToTop()"
+      title="Наступна"
     >
       ›
     </button>
+
+    <button 
+      class="nav-btn last" 
+      [disabled]="pagination.CurrentPage === pagination.TotalPages" 
+      (click)="loadLastPage()"
+      title="На останню сторінку"
+    >
+      »
+    </button>
+
   </div>
 </div>
