@@ -13,6 +13,7 @@ body {
   height: 100%;
   z-index: -1;
 }
+
 h1 {
   margin-bottom: 20px;
 }
@@ -23,10 +24,11 @@ h1 {
   align-items: center;
   text-align: center;
   margin: 1rem auto;
-  width: 50%;
-  max-width: 600px;
+  width: 90%;          /* Збільшимо ширину блоку */
+  max-width: 800px;    /* Даємо більше місця для карток (було 600px) */
 }
 
+/* --- Аватар та форма --- */
 .avatar-container {
   display: flex;
   justify-content: center;
@@ -74,7 +76,8 @@ button:hover {
 
 .form-group {
   margin: 10px 0;
-  width: 100%;
+  width: 80%; /* Трохи вужче в межах форми */
+  margin-right: 10px;
   text-align: left;
 }
 
@@ -89,6 +92,7 @@ input {
   padding: 10px;
   border: 3px solid #000;
   background-color: inherit;
+  box-sizing: border-box; /* Важливо для відступів */
 }
 
 .password-reset {
@@ -123,12 +127,7 @@ button[type="submit"]:disabled {
 .name-fields {
   display: flex;
   justify-content: space-between;
-}
-
-.password-fields {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 100%; /* Форма на всю ширину контейнера */
 }
 
 .namesChange {
@@ -138,21 +137,23 @@ button[type="submit"]:disabled {
   padding: 13px;
 }
 
-.form-group {
-  width: 80%;
-  margin-right: 10px;
-}
-
+/* --- Заголовок збережених --- */
 .savedRecipes-container {
   margin-top: 20px;
   font-weight: 700;
   margin-bottom: 20px;
+  align-self: flex-start; /* Вирівнюємо заголовок зліва */
+  margin-left: 10px;
 }
 
+/* --- СІТКА КАРТОК (ВИПРАВЛЕНО) --- */
 .recipe-cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  /* Автоматично підбирає кількість колонок. Мінімум 220px на картку */
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px; /* Відступи між картками */
+  width: 100%; /* Займаємо всю ширину батька */
+  justify-content: start; /* Картки починаються зліва */
 }
 
 .recipe-card {
@@ -160,15 +161,16 @@ button[type="submit"]:disabled {
   border: 1px solid #ddd;
   border-radius: 10px;
   overflow: hidden;
-  margin: 10px;
+  /* margin прибираємо, бо є gap */
   cursor: pointer;
-  width: calc(33.33% - 20px);
+  width: 100%; /* Картка займає всю комірку сітки */
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%; /* Щоб усі картки були однакової висоти */
 }
 
 .recipe-card img {
@@ -209,38 +211,27 @@ button[type="submit"]:disabled {
   text-overflow: ellipsis;
 }
 
-.recipe-info p {
-  color: #666;
-  margin-bottom: 10px;
-  font-size: 14px;
-}
-
-@media only screen and (max-width: 1110px) {
-  .recipe-card {
-    width: calc(50% - 20px);
-  }
-}
-
+/* --- Медіа запити --- */
 @media only screen and (max-width: 925px) {
   .name-fields {
     flex-direction: column;
   }
 
+  /* Для мобільних грід сам перебудується в 1 колонку завдяки auto-fill, 
+     але можна примусово вказати для надійності */
   .recipe-cards {
-    flex-direction: column;
-  }
-
-  .recipe-card {
-    width: 100%;
+    grid-template-columns: 1fr;
   }
 
   .namesChange {
     margin: 10px 0px !important;
   }
+  
   .form-group {
     width: 100%;
     margin-right: 0px;
   }
+  
   .password-reset {
     align-self: center;
   }

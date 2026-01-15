@@ -17,4 +17,5 @@ export interface Recipe{
     responds?:Respond[],
     user?:User,
     savedRecipes?:number
+    isSavedByCurrentUser?: boolean;
 }

@@ -72,10 +72,24 @@
 
             <input type="number" class="form-control qty-input" formControlName="quantity" placeholder="К-сть">
             
-            <select class="form-control unit-select" formControlName="unit">
-              <option value="" disabled selected>Од.</option>
-              <option *ngFor="let unit of weightUnits" [value]="unit.type">{{ unit.type }}</option>
-            </select>
+            <div class="custom-select-wrapper">
+              
+              <div class="form-control unit-trigger" 
+                   [class.active]="openDropdownIndex === i"
+                   (click)="toggleUnitDropdown(i, $event)">
+                  
+                  <span>{{ ingredients.at(i).get('unit')?.value || 'Од.' }}</span>
+                  <i class="fas fa-chevron-down arrow-icon"></i>
+              </div>
+
+              <ul class="custom-options-list" *ngIf="openDropdownIndex === i">
+                  <li *ngFor="let unit of weightUnits" 
+                      (click)="selectUnit(unit.type, i)"
+                      [class.selected]="unit.type === ingredients.at(i).get('unit')?.value">
+                      {{ unit.type }}
+                  </li>
+              </ul>
+            </div>
 
             <button type="button" class="remove-btn" (click)="removeIngredient(i)" title="Видалити">
               <i class="fas fa-trash"></i>

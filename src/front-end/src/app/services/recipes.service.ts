@@ -9,7 +9,7 @@ import { RecipeDto as RecipeDto } from '../interfaces/recipe-create.interface';
   providedIn: 'root'
 })
 export class RecipesService {
-
+private apiUrl = 'http://localhost:5000/api/Recipe'; // Базовий URL
   constructor(private http: HttpClient) {}
 
   getRecipes(title: string, ingredients: string[], page: number,sortType:number): Observable<HttpResponse<Recipe[]>> {
@@ -52,6 +52,25 @@ export class RecipesService {
   // Або POST, залежно від твоєї реалізації
   return this.http.put(`http://localhost:5000/api/Recipe/${id}`, recipe);
 }
+
+// Метод збереження рецепту
+  saveRecipe(userId: string, recipeId: string): Observable<any> {
+    const params = new HttpParams()
+      .set('UserId', userId)
+      .set('RecipeId', recipeId);
+
+    return this.http.post(`${this.apiUrl}/SaveRecipe`, {}, { params });
+  }
+
+  // Метод видалення зі збережених
+  removeRecipeFromSaved(userId: string, recipeId: string): Observable<any> {
+    const params = new HttpParams()
+      .set('UserId', userId)
+      .set('RecipeId', recipeId);
+
+    return this.http.post(`${this.apiUrl}/RemoveRecipeFromSaved`, {}, { params });
+  }
+
   private handleError(error: HttpErrorResponse): Observable<any> {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

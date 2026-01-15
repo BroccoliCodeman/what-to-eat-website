@@ -326,3 +326,97 @@ label {
         grid-column: 2; /* Кнопка видалення біля одиниць */
     }
 }
+/* --- Custom Select Styles (Додати в кінець файлу) --- */
+
+/* Контейнер для селектора */
+.custom-select-wrapper {
+    position: relative;
+    width: 100%; /* Заповнює свою колонку Grid */
+    font-family: "Montserrat", sans-serif;
+}
+
+/* Вигляд "кнопки" (замість input) */
+.unit-trigger {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fafafa;
+    user-select: none;
+    height: 49px; /* Фіксуємо висоту, щоб збігалася з іншими полями */
+    box-sizing: border-box;
+}
+
+.unit-trigger:hover {
+    border-color: #004225;
+}
+
+.unit-trigger.active {
+    border-color: #ffb000;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/* Стрілочка */
+.arrow-icon {
+    font-size: 0.8rem;
+    color: #004225;
+    transition: transform 0.3s;
+}
+
+.unit-trigger.active .arrow-icon {
+    transform: rotate(180deg);
+}
+
+/* Випадаючий список */
+.custom-options-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #ffb000;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    z-index: 1000; /* Щоб перекривати елементи знизу */
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Опції списку */
+.custom-options-list li {
+    padding: 10px 15px;
+    cursor: pointer;
+    color: #505050;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s;
+}
+
+.custom-options-list li:last-child {
+    border-bottom: none;
+}
+
+.custom-options-list li:hover {
+    background-color: #fef8e0; /* Світло-жовтий при наведенні */
+    color: #004225;
+    font-weight: 600;
+}
+
+.custom-options-list li.selected {
+    background-color: #004225;
+    color: white;
+}
+
+/* Стилізація скролбару */
+.custom-options-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.custom-options-list::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 3px;
+}

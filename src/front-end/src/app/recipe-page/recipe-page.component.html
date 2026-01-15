@@ -33,12 +33,14 @@
           
           <button
             *ngIf="user"
-            [disabled]="isNotSaved"
             class="buttonSaveRecipe"
-            (click)="saveRecipe()"
-            title="Зберегти в закладки"
+            (click)="toggleSaveRecipe()"
+            [title]="recipe.isSavedByCurrentUser ? 'Видалити із закладок' : 'Зберегти в закладки'"
           >
-            <i class="saveRecipe fa-regular fa-bookmark"></i>
+            <i class="fa-bookmark" 
+               [class.fa-solid]="recipe.isSavedByCurrentUser" 
+               [class.fa-regular]="!recipe.isSavedByCurrentUser">
+            </i>
           </button>
 
           <button

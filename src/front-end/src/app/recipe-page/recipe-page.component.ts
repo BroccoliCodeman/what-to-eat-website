@@ -33,47 +33,75 @@ export class RecipePageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const id = this.activatedRouter.snapshot.paramMap.get('id') as string || '';
 
+    // Якщо користувач не залогінений, ми все одно можемо отримати рецепт, 
+    // але isSavedByCurrentUser буде false (або null) з бекенду.
     forkJoin({
       user: this.authService.getUser(),
-      recipe: this.recipeService.getRecipeById(id)
+      // Якщо у вас є метод getRecipeById, який враховує UserContext на бекенді,
+      // то isSavedByCurrentUser прийде вже заповненим.
+      recipe: this.recipeService.getRecipeById(id) 
     })
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next: ({ user, recipe }) => {
-        // ... (код обробки user залишається без змін) ...
         if (!user.error) {
           this.user = user;
+          // Виправлення аватара, якщо треба
           if (this.user && this.user.avatar === 'string') {
             this.user.avatar = null;
           }
-          if (this.user.savedRecipes && this.user.savedRecipes.length > 0) {
-            this.isNotSaved = this.user.savedRecipes.some((savedRecipe: any) => savedRecipe.id === id);
-          }
-        } else {
-          this.user = null;
         }
 
-        // --- Обробка рецепту та ініціалізація пагінації ---
         if (recipe.statusCode === 200) {
           this.recipe = recipe.data;
           
-          // Ініціалізуємо відгуки
+          // Ініціалізація пагінації
           if (this.recipe && this.recipe.responds) {
             this.totalPages = Math.ceil(this.recipe.responds.length / this.pageSize);
             this.updatePaginatedReviews();
           }
-          
           this.scrollToTop();
         }
       },
-      error: (error) => {
-        console.error('Error fetching data:', error);
-      }
+      error: (err) => console.error(err)
     });
   }
-
   // --- Методи пагінації ---
-  
+  toggleSaveRecipe(): void {
+    if (!this.user || !this.recipe) return;
+
+    if (this.recipe.isSavedByCurrentUser) {
+      // Якщо вже збережено -> Видаляємо
+      this.recipeService.removeRecipeFromSaved(this.user.id, this.recipe.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (res) => {
+            if (res.statusCode === 200) {
+              this.recipe!.isSavedByCurrentUser = false;
+              // Опціонально: зменшити лічильник
+              // if (this.recipe!.savesCount && this.recipe!.savesCount > 0) {
+              //   this.recipe!.savesCount--;
+              // }
+            }
+          },
+          error: (err) => console.error('Error removing recipe:', err)
+        });
+    } else {
+      // Якщо не збережено -> Зберігаємо
+      this.recipeService.saveRecipe(this.user.id, this.recipe.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (res) => {
+            if (res.statusCode === 200) {
+              this.recipe!.isSavedByCurrentUser = true;
+              // Опціонально: збільшити лічильник
+              // this.recipe!.savesCount = (this.recipe!.savesCount || 0) + 1;
+            }
+          },
+          error: (err) => console.error('Error saving recipe:', err)
+        });
+    }
+  }
   updatePaginatedReviews() {
     if (this.recipe && this.recipe.responds) {
       const startIndex = (this.currentPage - 1) * this.pageSize;

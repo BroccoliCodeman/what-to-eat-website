@@ -1,218 +1,126 @@
 <div class="page-background"></div>
 <app-header></app-header>
 
-<section>
-  <article class="search">
-    <form (ngSubmit)="searchRecipes()" #recipeForm="ngForm">
-      <div class="form-group">
-        <div
-          *ngIf="selectedIngredients.length > 0"
-          style="display: flex; align-items: center; flex-wrap: wrap; gap: 10px"
-        >
-          <label>Вибрані Інгредієнти: </label>
-          <div
-            *ngFor="
-              let selectedIngredient of selectedIngredients;
-              let i = index
-            "
-            style="display: flex"
-          >
-            <label class="selectedIngredient-div">{{
-              selectedIngredient.name
-            }}</label>
-            <button
-              class="selectedIngredient-btn"
-              (click)="deleteIngredient(i)"
-            >
-              X
-            </button>
+<div class="catalog-layout">
+
+  <div class="content-fill">
+    
+    <section>
+      <article class="search">
+        <form (ngSubmit)="searchRecipes()" #recipeForm="ngForm">
+          <div class="form-group">
+            <div *ngIf="selectedIngredients.length > 0"
+              style="display: flex; align-items: center; flex-wrap: wrap; gap: 10px">
+              <label>Вибрані Інгредієнти: </label>
+              <div *ngFor="let selectedIngredient of selectedIngredients; let i = index" style="display: flex">
+                <label class="selectedIngredient-div">{{ selectedIngredient.name }}</label>
+                <button class="selectedIngredient-btn" (click)="deleteIngredient(i)">X</button>
+              </div>
+            </div>
+
+            <div class="search-container">
+              <input type="text" class="search-input" id="title" name="title" [(ngModel)]="title"
+                placeholder="Введіть інгредієнти або назву рецепту" (input)="searchInputChange()"
+                (focus)="searchInputFocused = true" (blur)="searchInputBlur()" />
+              <button type="submit" class="search-button">Знайти рецепти</button>
+            </div>
+
+            <div>
+              <ul *ngIf="searchInputFocused == true" style="position: absolute; list-style-type: none; z-index: 100;">
+                <li class="search-li" *ngFor="let recipe of recipesSearchList; let i = index"
+                  routerLink="/recipe-page/{{ recipe.id }}">
+                  <img src="../../assets/images/recipe-icon.png" style="height: auto; width: 28px; margin-right: 5px" alt="icon" />
+                  {{ recipe.title }}
+                  <h6 style="margin-left: 2px">- Страва</h6>
+                </li>
+                <li class="search-li" *ngFor="let ingredient of ingredientsList; let i = index"
+                  (mousedown)="addIngredient(i)">
+                  <img src="../../assets/images/ingredient-icon.png" style="height: auto; width: 28px; margin-right: 5px" alt="icon" />
+                  {{ ingredient.name }}
+                  <h6 style="margin-left: 2px">- Інгредієнт</h6>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
+        </form>
+      </article>
+    </section>
 
-        <div class="search-container">
-          <input
-            type="text"
-            class="search-input"
-            id="title"
-            name="title"
-            [(ngModel)]="title"
-            placeholder="Введіть інгредієнти або назву рецепту"
-            (input)="searchInputChange()"
-            (focus)="searchInputFocused = true"
-            (blur)="searchInputBlur()"
-          />
-          <button type="submit" class="search-button">Знайти рецепти</button>
-        </div>
-
-        <div>
-          <ul
-            *ngIf="searchInputFocused == true"
-            style="position: absolute; list-style-type: none"
-          >
-            <li
-              class="search-li"
-              *ngFor="let recipe of recipesSearchList; let i = index"
-              routerLink="/recipe-page/{{ recipe.id }}"
-            >
-              <img
-                src="../../assets/images/recipe-icon.png"
-                style="height: auto; width: 28px; margin-right: 5px"
-                alt="recipe-photo"
-              />
-              {{ recipe.title }}
-              <h6 style="margin-left: 2px">- Страва</h6>
-            </li>
-            <li
-              class="search-li"
-              *ngFor="let ingredient of ingredientsList; let i = index"
-              (mousedown)="addIngredient(i)"
-            >
-              <img
-                src="../../assets/images/ingredient-icon.png"
-                style="height: auto; width: 28px; margin-right: 5px"
-                alt="recipe-photo"
-              />
-              {{ ingredient.name }}
-              <h6 style="margin-left: 2px">- Інгредієнт</h6>
-            </li>
-          </ul>
-        </div>
+    <div class="controls-row">
+      <div>
+        <label>Кількість результатів: <b>({{ TotalCount }})</b></label>
       </div>
-    </form>
-  </article>
-</section>
-
-<div style="float: left; margin-left: 12vw">
-  <label
-    >Кількість результатів: <b>({{ TotalCount }})</b></label
-  >
-</div>
-<div style="float: right; margin-right: 12vw">
-  <label>Сортувати за:</label>
-  <select
-    (change)="searchRecipes()"
-    [(ngModel)]="selectedSortOption"
-    id="sort-select"
-  >
-    <option>--Виберіть--</option>
-    <option *ngFor="let sortoption of sortOptions; let i = index">
-      {{ sortoption }}
-    </option>
-  </select>
-</div>
-<br /><br />
-
-<section class="cards-container" style="border-top: solid 2px gray">
-  <label *ngIf="recipes.length == 0" style="font-size: 30px"
-    >Немає результатів.</label
-  >
-
-  <div
-    class="card"
-    *ngFor="let recipe of recipes; let idx = index"
-    (click)="goToRecipePage(recipe.id)"
-  >
-    <img
-      class="card-img-top"
-      [src]="getRecipePhotoUrl(recipe)"
-      (error)="onRecipeImageError($event, recipe)"
-      [alt]="'Recipe-' + recipe.id"
-    />
-    <div class="card-body">
-      <h5 class="card-title">{{ recipe.title }}</h5>
-      <div class="user-container" *ngIf="recipe.user">
-        <div class="avatar">
-          <img
-            [src]="getAvatarUrl(recipe)"
-            (error)="onAvatarError($event, recipe)"
-            [alt]="'Avatar-' + recipe.id + '-' + idx"
-            class="avatar"
-          />
-        </div>
-        <div class="sub-user-container">
-          <p class="username">
-            {{ recipe.user.firstName || 'Невідомий' }} {{ recipe.user.lastName }}
-          </p>
-          <p class="date">
-            <i class="fas fa-calendar-alt" style="font-size: 1.4rem"></i>
-            {{ recipe.creationDate | date }}
-          </p>
-        </div>
-      </div>
-      <div class="user-container" *ngIf="!recipe.user">
-        <div class="avatar">
-          <img
-            src="assets/images/default_user.jpg"
-            alt="Default Avatar"
-            class="avatar"
-          />
-        </div>
-        <div class="sub-user-container">
-          <p class="username">Невідомий автор</p>
-          <p class="date">
-            <i class="fas fa-calendar-alt" style="font-size: 1.4rem"></i>
-            {{ recipe.creationDate | date }}
-          </p>
-        </div>
+      <div>
+        <label>Сортувати за: </label>
+        <select (change)="searchRecipes()" [(ngModel)]="selectedSortOption" id="sort-select">
+          <option>--Виберіть--</option>
+          <option *ngFor="let sortoption of sortOptions">{{ sortoption }}</option>
+        </select>
       </div>
     </div>
-  </div>
-</section>
 
-<div class="pagination-container">
-  <div class="pagination" *ngIf="pagination">
+    <section class="cards-container" style="border-top: solid 2px gray">
+      <label *ngIf="recipes.length == 0" style="font-size: 30px; text-align: center; display: block; width: 100%; margin-top: 50px;">
+        Немає результатів.
+      </label>
+
+      <div class="card" *ngFor="let recipe of recipes; let idx = index" (click)="goToRecipePage(recipe.id)">
+        <img class="card-img-top" [src]="getRecipePhotoUrl(recipe)" (error)="onRecipeImageError($event, recipe)"
+          [alt]="'Recipe-' + recipe.id" />
+        <div class="card-body">
+          <h5 class="card-title">{{ recipe.title }}</h5>
+          
+          <div class="user-container" *ngIf="recipe.user">
+            <div class="avatar">
+              <img [src]="getAvatarUrl(recipe)" (error)="onAvatarError($event, recipe)"
+                [alt]="'Avatar-' + idx" class="avatar" />
+            </div>
+            <div class="sub-user-container">
+              <p class="username">{{ recipe.user.firstName || 'Невідомий' }} {{ recipe.user.lastName }}</p>
+              <p class="date">
+                <i class="fas fa-calendar-alt" style="font-size: 1.4rem"></i>
+                {{ recipe.creationDate | date }}
+              </p>
+            </div>
+          </div>
+
+          <div class="user-container" *ngIf="!recipe.user">
+            <div class="avatar">
+              <img src="assets/images/default_user.jpg" alt="Default" class="avatar" />
+            </div>
+            <div class="sub-user-container">
+              <p class="username">Невідомий автор</p>
+              <p class="date">
+                <i class="fas fa-calendar-alt" style="font-size: 1.4rem"></i>
+                {{ recipe.creationDate | date }}
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </div> 
+  <div class="pagination-container">
+    <div class="pagination" *ngIf="pagination">
+      
+      <button class="nav-btn first" [disabled]="pagination.CurrentPage === 1" (click)="loadFirstPage()" title="На першу">«</button>
+      
+      <button class="nav-btn previous" [disabled]="!pagination.HasPrevious" (click)="loadPreviousPage(); scrollToTop()" title="Попередня">‹</button>
+
+      <ng-container *ngFor="let page of getPaginationList()">
+        <button *ngIf="page !== '...'" class="pageNumbers" [disabled]="pagination.CurrentPage === page"
+          [class.current]="pagination.CurrentPage === page" (click)="loadRecipesForPage(page); scrollToTop()">
+          {{ page }}
+        </button>
+        <span *ngIf="page === '...'" class="dots">...</span>
+      </ng-container>
+
+      <button class="nav-btn next" [disabled]="!pagination.HasNext" (click)="loadNextPage(); scrollToTop()" title="Наступна">›</button>
+
+      <button class="nav-btn last" [disabled]="pagination.CurrentPage === pagination.TotalPages" (click)="loadLastPage()" title="На останню">»</button>
     
-    <button 
-      class="nav-btn first" 
-      [disabled]="pagination.CurrentPage === 1" 
-      (click)="loadFirstPage()"
-      title="На першу сторінку"
-    >
-      «
-    </button>
-
-    <button
-      class="nav-btn previous"
-      [disabled]="!pagination.HasPrevious"
-      (click)="loadPreviousPage(); scrollToTop()"
-      title="Попередня"
-    >
-      ‹
-    </button>
-
-    <ng-container *ngFor="let page of getPaginationList()">
-      
-      <button
-        *ngIf="page !== '...'"
-        class="pageNumbers"
-        [disabled]="pagination.CurrentPage === page"
-        [class.current]="pagination.CurrentPage === page"
-        (click)="loadRecipesForPage(page); scrollToTop()"
-      >
-        {{ page }}
-      </button>
-
-      <span *ngIf="page === '...'" class="dots">...</span>
-      
-    </ng-container>
-
-    <button
-      class="nav-btn next"
-      [disabled]="!pagination.HasNext"
-      (click)="loadNextPage(); scrollToTop()"
-      title="Наступна"
-    >
-      ›
-    </button>
-
-    <button 
-      class="nav-btn last" 
-      [disabled]="pagination.CurrentPage === pagination.TotalPages" 
-      (click)="loadLastPage()"
-      title="На останню сторінку"
-    >
-      »
-    </button>
-
+    </div>
   </div>
+
 </div>

@@ -1,385 +1,139 @@
+/* --- Глобальні --- */
 .page-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #f8f6f2;
-  z-index: -1;
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: #f8f6f2; z-index: -1;
 }
 
-/*SEARCHING*/
-.search {
-  width: 80%;
-  margin: 0px auto;
-  margin-top: 30px;
-}
-
-.search-container {
-  position: relative;
-  display: flex;
-}
-
-.search-input {
-  flex: 1;
-  padding: 13px 60px 13px 50px;
-  border-radius: 20px;
-  border: 1px solid #ccc;
-  outline: none;
-  width: 100%;
-  margin-top: 20px;
-  background-image: url("../../assets/images/search-icon.svg");
-  background-size: 20px;
-  background-repeat: no-repeat;
-  background-position: 15px center;
-}
-
-.search-button {
-  position: absolute;
-  top: 20.5px;
-  right: 0;
-  background-color: #ffb000;
-  color: #fff;
-  font-weight: 600;
-  border: none;
-  padding: 13px 30px;
-  border-radius: 20px;
-  margin-left: -100px;
-}
-
-.search-button:hover {
-  background-color: #004225;
-  transition: background-color 100ms linear;
-}
-
-.search-button a {
-  text-decoration: none;
-  color: #fff;
-}
-
-.search-li{
-  margin-left: 10px;
-  background-color: white;
-  border: 1px solid #ccc;
-  width: 61vw;
-  height: auto;
-  padding-left: 10px;
-  display: flex;
-  align-items: center;
-  border-radius: 10px;
-}
-.search-li:hover{
-  background-color: lightgray;
-  cursor: pointer;
-}
-
-@media only screen and (max-width: 791px) {
-  .search div {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .search-input {
-    width: 80%;
-  }
-
-  .search-button {
-    margin: 10px auto;
-    width: 50%;
-    text-align: center;
-    position: static;
-  }
-}
-
-@media only screen and (max-width: 480px) {
-  .search-input {
-    width: 60%;
-    margin: 0 auto;
-  }
-
-  .search-input::placeholder {
-    content: "Пошук";
-  }
-}
-
-/*END SEARCHING*/
-
-section {
-  width: 80%;
-  margin: 0 auto;
-}
-
-.container {
-  max-width: 600px;
-  margin: auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.1);
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.btn-primary {
-  background-color: #007bff;
-  color: #fff;
-}
-
-.btn-primary:hover {
-  background-color: #0056b3;
-}
-
-.cards-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 20px;
-  padding: 20px;
-}
-
-.card {
-  background-color: transparent;
-  border-radius: 5px;
-  overflow: hidden;
+/* --- Структура (Sticky Footer) --- */
+.catalog-layout {
   display: flex;
   flex-direction: column;
+  min-height: calc(100vh - 100px); /* Приблизна висота екрану мінус хедер */
+}
+
+.content-fill {
+  flex: 1; /* Розтягується */
+  display: flex;
+  flex-direction: column;
+}
+
+.controls-row {
+  display: flex;
   justify-content: space-between;
-}
-
-.card-img-top {
-  width: 100%;
-  height: 200px;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  cursor: pointer;
-}
-
-.card-body {
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
-  flex-grow: 1;
-}
-
-.card-title {
-  font-size: 1.25rem;
-  margin-bottom: 10px;
-  text-align: left;
-  font-size: 25px;
-  flex-shrink: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.avatar img {
-  width: 45px;
-  height: 45px;
-  border-radius: 100%;
-  margin-right: 10px;
-}
-
-.user-container {
-  display: flex;
   align-items: center;
-}
-
-.username,
-.date {
-  font-size: 0.8rem;
-  color: #666;
-}
-
-.username {
-  margin-bottom: 5px;
-}
-
-.date i {
-  margin-right: 5px;
-}
-
-.pagination-container {
-  display: flex;
-  justify-content: center;
+  padding: 0 12vw;
   margin-top: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-.pagination button {
-  background: none;
-  font-weight: 800;
-  font-size: 1rem;
-  border: none;
-  color: inherit;
-  cursor: pointer;
-  padding: 10px;
-  margin: 0 auto;
-  outline: none;
-  text-decoration: none;
+/* --- Пошук --- */
+.search { width: 80%; margin: 30px auto 0 auto; }
+.search-container { position: relative; display: flex; }
+.search-input {
+  flex: 1; padding: 13px 60px 13px 50px; border-radius: 20px;
+  border: 1px solid #ccc; outline: none; width: 100%; margin-top: 20px;
+  background-image: url("../../assets/images/search-icon.svg");
+  background-size: 20px; background-repeat: no-repeat; background-position: 15px center;
 }
+.search-button {
+  position: absolute; top: 20.5px; right: 0; background-color: #ffb000;
+  color: #fff; font-weight: 600; border: none; padding: 13px 30px;
+  border-radius: 20px; margin-left: -100px; cursor: pointer;
+}
+.search-button:hover { background-color: #004225; transition: background-color 0.1s; }
 
-.pagination button[disabled]:hover {
-  text-decoration: none;
+.search-li {
+  margin-left: 10px; background-color: white; border: 1px solid #ccc;
+  width: 61vw; padding: 10px; display: flex; align-items: center; border-radius: 10px;
 }
+.search-li:hover { background-color: lightgray; cursor: pointer; }
 
-.pagination .previous[disabled],
-.pagination .next[disabled] {
-  background: #ccc;
-  color: #888;
-  cursor: default;
+/* Вибрані інгредієнти */
+.selectedIngredient-div {
+  background: lightgray; height: 28px; border-radius: 20px;
+  padding: 8px 35px 0 10px;
 }
+.selectedIngredient-btn {
+  height: 35px; width: 35px; background-color: gray; border-radius: 20px;
+  border: 0px; margin-left: -30px; cursor: pointer;
+}
+.selectedIngredient-btn:hover { background-color: #949393; }
 
-.pagination button.current[disabled] {
-  text-decoration: none;
-  color: #888;
-  cursor: default;
+/* --- Картки --- */
+section { width: 80%; margin: 0 auto; }
+.cards-container {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px; padding: 20px;
 }
+.card {
+  background-color: transparent; border-radius: 5px; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.card-img-top {
+  width: 100%; height: 200px; background-position: center;
+  background-size: cover; background-repeat: no-repeat; cursor: pointer;
+}
+.card-body {
+  padding: 15px; display: flex; flex-direction: column; flex-grow: 1;
+}
+.card-title {
+  font-size: 1.25rem; margin-bottom: 10px; white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
+}
+.user-container { display: flex; align-items: center; }
+.avatar img { width: 45px; height: 45px; border-radius: 100%; margin-right: 10px; }
+.username, .date { font-size: 0.8rem; color: #666; margin: 0; }
+.date i { margin-right: 5px; }
 
-/* Optionally, you can add hover and active styles */
-.pagination button:hover {
-  text-decoration: underline;
-}
-
-.pagination button:active {
-  text-decoration: underline;
-}
-
-@media only screen and (max-width: 424px) {
-  .card-img-top {
-    width: calc(100% - 40px);
-    height: 200px;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    cursor: pointer;
-  }
-}
-
-.selectedIngredient-div{
-  background: lightgray;
-  height: 28px;
-  border-radius: 20px;
-  padding-top: 8px;
-  padding-right: 35px;
-  padding-left: 10px;
-}
-.selectedIngredient-btn{
-  height: 35px;
-  width: 35px;
-  background-color: gray;
-  border-radius: 20px;
-  border: 0px;
-  margin-left: -30px;
-}
-.selectedIngredient-btn:hover{
-  background-color: #949393;
-  cursor: pointer;
-}
-/* catalog.component.css */
-
-/* ... (інші стилі залишаються) */
-
+/* --- Пагінація --- */
 .pagination-container {
   display: flex;
   justify-content: center;
-  margin-top: 30px;
-  margin-bottom: 50px;
+  margin-top: auto; /* Притискає до низу */
+  margin-bottom: 30px;
+  padding-top: 20px;
 }
 
 .pagination {
-  display: flex;
-  align-items: center;
-  gap: 5px; /* Відступ між кнопками */
-  background: white;
-  padding: 10px 20px;
-  border-radius: 50px;
+  display: flex; align-items: center; gap: 5px;
+  background: white; padding: 10px 20px; border-radius: 50px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
-/* Стиль для звичайних кнопок навігації (стрілочки) */
 .nav-btn {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  color: #004225;
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: all 0.2s;
-  line-height: 1;
-  padding-bottom: 5px; /* Корекція центрування символу */
+  background: none; border: none; font-size: 1.5rem; color: #004225;
+  cursor: pointer; width: 40px; height: 40px; display: flex; align-items: center;
+  justify-content: center; border-radius: 50%; transition: all 0.2s;
+  padding-bottom: 5px;
 }
+.nav-btn:hover:not([disabled]) { background-color: #f0f7f2; transform: scale(1.1); }
+.nav-btn[disabled] { color: #ccc; cursor: default; }
 
-.nav-btn:hover:not([disabled]) {
-  background-color: #f0f7f2;
-  transform: scale(1.1);
-}
-
-.nav-btn[disabled] {
-  color: #ccc;
-  cursor: default;
-}
-
-/* Стиль для номерів сторінок */
 .pageNumbers {
-  background: none;
-  border: none;
-  font-family: "Montserrat", sans-serif;
-  font-weight: 600;
-  font-size: 1rem;
-  color: #505050;
-  cursor: pointer;
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
+  background: none; border: none; font-family: "Montserrat", sans-serif;
+  font-weight: 600; font-size: 1rem; color: #505050; cursor: pointer;
+  width: 35px; height: 35px; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center; transition: all 0.2s;
 }
-
-.pageNumbers:hover:not(.current) {
-  background-color: #f0f7f2;
-  color: #004225;
-}
-
-/* Активна сторінка */
+.pageNumbers:hover:not(.current) { background-color: #f0f7f2; color: #004225; }
 .pageNumbers.current {
-  background-color: #ffb000;
-  color: white;
-  font-weight: bold;
-  box-shadow: 0 2px 5px rgba(255, 176, 0, 0.4);
-  cursor: default;
+  background-color: #ffb000; color: white; font-weight: bold;
+  box-shadow: 0 2px 5px rgba(255, 176, 0, 0.4); cursor: default;
 }
 
-/* Стиль для трьох крапок (...) */
-.dots {
-  color: #888;
-  font-weight: bold;
-  padding: 0 5px;
-  user-select: none;
+.dots { color: #888; font-weight: bold; padding: 0 5px; user-select: none; }
+
+/* --- Медіа запити --- */
+@media only screen and (max-width: 791px) {
+  .search div { flex-direction: column; }
+  .search-input { width: 80%; }
+  .search-button { margin: 10px auto; width: 50%; position: static; }
 }
 
-/* Адаптивність для пагінації */
-@media (max-width: 500px) {
-  .pagination {
-    padding: 5px 10px;
-    gap: 2px;
-  }
-  
-  .nav-btn, .pageNumbers {
-    width: 30px;
-    height: 30px;
-    font-size: 0.9rem;
-  }
-
-  .nav-btn {
-    font-size: 1.2rem; /* Стрілочки трохи більші */
-  }
+@media only screen and (max-width: 500px) {
+  .search-input { width: 60%; }
+  .pagination { padding: 5px 10px; gap: 2px; }
+  .nav-btn, .pageNumbers { width: 30px; height: 30px; font-size: 0.9rem; }
 }

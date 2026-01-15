@@ -1,4 +1,3 @@
-import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CloudinaryService } from '../services/cloudinary.service';
@@ -8,7 +7,7 @@ import { AuthService } from '../services/auth.service';
 import { WeightUnitService } from '../services/weight-unit.service'; // Імпорт нового сервісу
 import { SelectedIngredient } from '../interfaces/selectedIngredient.interface';
 import { RecipeDto } from '../interfaces/recipe-create.interface';
-
+import { Component, OnInit, HostListener } from '@angular/core';
 @Component({
   selector: 'app-recipe-create',
   templateUrl: './recipe-create.component.html',
@@ -26,7 +25,7 @@ export class RecipeCreateComponent implements OnInit {
 
   // Змінили тип на any[], оскільки з бекенду прийдуть об'єкти {id, type}
   weightUnits: any[] = []; 
-
+openDropdownIndex: number = -1;
   constructor(
     private fb: FormBuilder,
     private cloudinaryService: CloudinaryService,
@@ -200,5 +199,28 @@ export class RecipeCreateComponent implements OnInit {
         alert('Виникла помилка при створенні рецепту.');
       }
     });
+  }
+
+  // Відкрити/Закрити список для конкретного рядка
+  toggleUnitDropdown(index: number, event: Event) {
+    event.stopPropagation(); // Зупиняємо спливання події, щоб document click не спрацював одразу
+    if (this.openDropdownIndex === index) {
+      this.openDropdownIndex = -1; // Закрити, якщо вже відкрито
+    } else {
+      this.openDropdownIndex = index; // Відкрити новий
+      this.isSearchFocused = false; // Закрити пошук інгредієнтів, якщо він відкритий
+    }
+  }
+
+  // Вибрати опцію
+  selectUnit(unitType: string, index: number) {
+    this.ingredients.at(index).patchValue({ unit: unitType });
+    this.openDropdownIndex = -1;
+  }
+
+  // Закрити при кліку в будь-якому іншому місці
+  @HostListener('document:click', ['$event'])
+  closeDropdowns() {
+    this.openDropdownIndex = -1;
   }
 }

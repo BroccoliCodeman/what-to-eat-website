@@ -11,9 +11,11 @@
       <li class="nav__item"><a routerLink="/">Що Поїсти</a></li>
       <li class="nav__item"><a routerLink="/catalog">Пошук рецептів</a></li>
       <li class="nav__item"><a routerLink="/modelpage">Пошук рецептів по фото</a></li>
+      <div *ngIf="isAuthorized">
       <li class="nav__item"><a href="/recipe-create">Додати рецепт</a></li>
       <li class="nav__item"><a href="/active-learning">Навчання моделі</a></li>
       <li class="nav__item"><a href="/model-status">Статус моделі</a></li>
+      </div>
     </ul>
   </nav>
   <a routerLink="/" class="brand">
@@ -28,7 +30,7 @@
     </div>
 
     <div *ngIf="isAuthorized" style="border: none; text-align: center" routerLink="/userpage">
-      <a aria-label="User Page">Налаштування профілю</a>
+      <a aria-label="User Page">Профіль</a>
     </div>
     <div
       *ngIf="isAuthorized"
